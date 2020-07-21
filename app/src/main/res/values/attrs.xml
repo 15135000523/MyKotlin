@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="AnnularProgressView">
+        <attr name="annularColor" format="color"/>
+        <attr name="progressColor" format="color"/>
+        <attr name="textColor" format="color"/>
+        <attr name="synopsisText" format="string"/>
+        <attr name="progressTextSize" format="dimension"/>
+        <attr name="synopsisTextSize" format="dimension"/>
+        <attr name="annularWidth" format="dimension"/>
+        <attr name="allProgress" format="integer"/>
+        <attr name="finishProgress" format="integer"/>
+    </declare-styleable>
+
+</resources>
