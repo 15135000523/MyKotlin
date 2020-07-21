@@ -4,10 +4,14 @@ import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
+import android.os.Build
+import android.text.StaticLayout
+import android.text.TextPaint
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
 import android.view.animation.LinearInterpolator
+import androidx.annotation.RequiresApi
 import com.example.mykotlin.R
 import com.example.mykotlin.utils.ViewUtils
 
@@ -16,7 +20,7 @@ import com.example.mykotlin.utils.ViewUtils
  */
 class AnnularProgressView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
-    var paint:Paint
+    private var paint:Paint
 
     var progressColor : Int //进度条颜色
     var annularColor :Int //环形颜色
@@ -29,11 +33,15 @@ class AnnularProgressView(context: Context, attrs: AttributeSet) : View(context,
     var finishProgress:Int //完成进度
     var synopsisTextMarginTop = 0f //进度文字和介绍文字的上下间距
 
-    var paddingMax : Float //padding中的最大值，防止环形变形
+    private var paddingMax : Float //padding中的最大值，防止环形变形
 
-    var degree = 0f //当前动画的执行进度
-    var finishDegree :Float //动画执行的终止进度
-    var animator: ObjectAnimator
+    private var degree = 0f
+    set(value) {
+        field = value
+        invalidate()
+    }//当前动画的执行进度
+    private var finishDegree :Float //动画执行的终止进度
+    private var animator: ObjectAnimator
     init{
         paint = Paint()
         paint.style = Paint.Style.STROKE
@@ -56,10 +64,7 @@ class AnnularProgressView(context: Context, attrs: AttributeSet) : View(context,
         animator = ObjectAnimator.ofFloat(this, "degree", 0f,finishDegree)
         animator.setDuration(2500)
         animator.setInterpolator( LinearInterpolator())
-        animator.addUpdateListener {
-            this.degree = it.getAnimatedValue("degree") as Float
-            invalidate()
-        }
+
     }
 
     override fun onAttachedToWindow() {
@@ -138,30 +143,58 @@ class AnnularProgressView(context: Context, attrs: AttributeSet) : View(context,
             var synopsisY =(bottom-progressTextSize-synopsisTextSize- synopsisTextMarginTop)/2+progressTextSize+synopsisTextSize//文字开始的y
             canvas.drawText(synopsisText,(right/2).toFloat(),synopsisY,paint)
         }
-//        measuretextWidth(progrressText)
+       // measuretextWidth(progrressText)
     }
 
     /**
      * 测量字符是否超出容器大小
      */
+    @SuppressLint("NewApi")
     private fun measuretextWidth(text:String):Boolean{
+        var textWidth = paint.measureText(text)
+        var annularWidth = paint.measureText(synopsisText)
+       // Log.e("------","measureText:"+textWidth+",synopsisText:"+annularWidth)
+
+        var layout = StaticLayout.Builder.obtain(text,0,text.length, TextPaint(),0).build()
+        Log.e("------","StaticLayout:"+ layout.width)
+
         var rect = Rect()
         paint.getTextBounds(text,0,text.length,rect)
-        if((right-left-paddingMax-paddingMax-annularWidth)>rect.width()){
-            Log.e("------","没有超出")
+        if((width-paddingMax-paddingMax-annularWidth)>rect.width()){
+        //    Log.e("------","没有超出:getTextBounds:"+rect.width())
             return false
-        }else{k
-            Log.e("------","超出了")
+        }else{
+           // Log.e("------","超出了")
         }
         return true
     }
 
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        if(widthMeasureSpec>heightMeasureSpec){
-            super.onMeasure(widthMeasureSpec, widthMeasureSpec)
-        }else{
-            super.onMeasure(heightMeasureSpec, heightMeasureSpec)
 
+
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        var widthMode = MeasureSpec.getMode(widthMeasureSpec)
+        var widthSize = MeasureSpec.getSize(widthMeasureSpec)
+        var heightSize = MeasureSpec.getSize(heightMeasureSpec)
+
+        Log.e("-------","-------wid----"+widthSize+"-----hei------"+heightSize)
+        when(widthMode){
+            MeasureSpec.AT_MOST-> {//自适应
+                var viewMode = MeasureSpec.AT_MOST
+                var viewWidth = 600
+                super.onMeasure(MeasureSpec.makeMeasureSpec(viewWidth,viewMode),  MeasureSpec.makeMeasureSpec(viewWidth,viewMode))
+            }
+            MeasureSpec.EXACTLY->{//精准模式
+                if (widthSize<heightSize){
+                    Log.e("---1----","-------wid----"+widthSize+"-----hei------"+heightSize)
+                    setMeasuredDimension(widthSize,widthSize)
+                    //super.onMeasure(widthMeasureSpec,  widthMeasureSpec)
+                }else{
+                    Log.e("----2---","-------wid----"+widthSize+"-----hei------"+heightSize)
+                   // super.onMeasure(heightMeasureSpec, heightMeasureSpec)
+                    setMeasuredDimension(heightSize,heightSize)
+                }
+            }
+            else-> super.onMeasure(widthMeasureSpec,  widthMeasureSpec)
         }
     }
 }
