@@ -1,4 +1,4 @@
-package com.example.mykotlin;
+package com.example.mykotlin.ui;
 
 import java.util.List;
 

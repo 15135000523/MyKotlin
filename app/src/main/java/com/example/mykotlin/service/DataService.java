@@ -1,8 +1,6 @@
 package com.example.mykotlin.service;
 
-import com.example.mykotlin.ReBean;
-
-import java.util.List;
+import com.example.mykotlin.ui.ReBean;
 
 import io.reactivex.Observable;
 import retrofit2.Call;

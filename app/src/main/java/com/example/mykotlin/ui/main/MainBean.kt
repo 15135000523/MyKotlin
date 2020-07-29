@@ -1,6 +1,5 @@
-package com.example.mykotlin
+package com.example.mykotlin.ui.main
 
-import android.content.SharedPreferences
 import android.util.Log
 
 data class MainBean(var name:String,var sex:String,var aihao:String,var jianjie:String)

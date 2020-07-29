@@ -83,12 +83,10 @@ public class RetrofitUtil {
                     public void onNext(T response) {
                         callBack.onSuccess(response);
                     }
-
                     @Override
                     public void onError(Throwable e) {
                         callBack.onError(e);
                     }
-
                     @Override
                     public void onComplete() { }
                 });

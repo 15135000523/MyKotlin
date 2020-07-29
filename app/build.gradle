@@ -8,7 +8,7 @@ android {
     buildToolsVersion "29.0.3"
     defaultConfig {
         applicationId "com.example.mykotlin"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -87,4 +87,8 @@ dependencies {
 //    androidTestImplementation "android.arch.navigation:navigation-testing:$nav_version"
 
     implementation "com.contrarywind:Android-PickerView:3.2.7"
+
+    //SmartRefreshLayout
+    implementation  'com.scwang.smart:refresh-layout-kernel:2.0.1'
+    implementation  'com.scwang.smart:refresh-header-classics:2.0.1'//经典刷新头
 }

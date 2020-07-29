@@ -4,10 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     tools:ignore="UnusedNavigation"
-    app:startDestination="@id/oneFragment">
+    app:startDestination="@id/tab_main">
 
     <fragment
-        android:id="@+id/oneFragment"
-        android:name="com.example.mykotlin.login.OneFragment"
-        android:label="OneFragment" />
+        android:id="@+id/tab_main"
+        android:name="com.example.mykotlin.ui.main.fragment.MainFragment"
+        android:label="首页" />
+    <fragment
+        android:id="@+id/tab_study"
+        android:name="com.example.mykotlin.ui.main.fragment.study.StudyFragment"
+        android:label="学习"/>
+    <fragment
+        android:id="@+id/tab_my"
+        android:name="com.example.mykotlin.ui.main.fragment.my.MyFragment"
+        android:label="我的"/>
+
 </navigation>

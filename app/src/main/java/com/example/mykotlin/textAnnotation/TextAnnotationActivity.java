@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.mykotlin.R;
-import com.example.mykotlin.ReBean;
+import com.example.mykotlin.ui.ReBean;
 import com.example.mykotlin.annotation.AnalysisAnna;
 import com.example.mykotlin.annotation.InjectClick;
 import com.example.mykotlin.annotation.injectId;
@@ -25,16 +25,9 @@ import com.example.mykotlin.service.RetrofitUtil;
 
 import java.util.HashMap;
 
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.observers.DefaultObserver;
-import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class TextAnnotationActivity extends AppCompatActivity {
     @injectId(R.id.annotation1)

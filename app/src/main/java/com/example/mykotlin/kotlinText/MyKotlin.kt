@@ -1,8 +1,8 @@
 package com.example.mykotlin.kotlinText
 
 import android.util.Log
-import com.example.mykotlin.MainBean
-import com.example.mykotlin.goPackBefore
+import com.example.mykotlin.ui.main.MainBean
+import com.example.mykotlin.ui.main.goPackBefore
 
 class MyKotlin {
 

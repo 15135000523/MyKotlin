@@ -16,13 +16,14 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".lifecycle.LifecycleActivity"></activity>
+        <activity android:name=".lifecycle.LifecycleActivity"/>
         <activity android:name=".textAnnotation.TextAnnotationActivity" />
-
+        <activity android:name=".login.LoginActivity" />
+        <activity android:name=".ui.main.MainActivity" />
         <activity-alias
             android:name=".kotlin"
             android:label="@string/app_name"
-            android:targetActivity=".textAnnotation.TextAnnotationActivity">
+            android:targetActivity=".ui.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,8 +31,7 @@
             </intent-filter>
         </activity-alias>
 
-        <activity android:name=".login.LoginActivity" />
-        <activity android:name=".MainActivity" />
+
     </application>
 
 </manifest>
