@@ -1,4 +1,4 @@
-package com.example.mykotlin.myview
+package com.example.mykotlin.view
 
 import android.content.Context
 import android.graphics.Canvas

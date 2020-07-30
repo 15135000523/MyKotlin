@@ -1,25 +1,25 @@
 package com.example.mykotlin.service;
 
 public class BaseResponse<T> {
-    private int code;
-    private String message;
+    private String errorCode;
+    private String errorMsg;
     private T data;
     private boolean result;
 
-    public int getCode() {
-        return code;
+    public String getCode() {
+        return errorCode;
     }
 
-    public void setCode(int code) {
-        this.code = code;
+    public void setCode(String errorCode) {
+        this.errorCode = errorCode;
     }
 
     public String getMessage() {
-        return message;
+        return errorMsg;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setMessage(String errorMsg) {
+        this.errorMsg = errorMsg;
     }
 
     public T getData() {

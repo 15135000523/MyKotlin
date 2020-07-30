@@ -13,14 +13,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.mykotlin.R;
-import com.example.mykotlin.ui.ReBean;
 import com.example.mykotlin.annotation.AnalysisAnna;
 import com.example.mykotlin.annotation.InjectClick;
 import com.example.mykotlin.annotation.injectId;
 import com.example.mykotlin.lifecycle.LifecycleActivity;
 import com.example.mykotlin.service.BaseResponse;
 import com.example.mykotlin.service.DataService;
-import com.example.mykotlin.service.IResponseCallBack;
 import com.example.mykotlin.service.RetrofitUtil;
 
 import java.util.HashMap;
@@ -58,41 +56,14 @@ public class TextAnnotationActivity extends AppCompatActivity {
         fragment = new TextAnnotationFragment();
         FragmentManager manager = getSupportFragmentManager();
         manager.beginTransaction().add(R.id.framelayout, fragment, "text").commit();
-       // getData();
     }
 
-    private void getData() {
-        DataService service = RetrofitUtil.getInstance().create(DataService.class);
-        Call<BaseResponse<String>> call = service.getAlreadyDoneList();
-        call.enqueue(new Callback<BaseResponse<String>>() {
-            @Override
-            public void onResponse(Call<BaseResponse<String>> call, Response<BaseResponse<String>> response) {
-                BaseResponse<String> baseResponse = response.body();
-                Log.e("yan httpResponse","添加"+baseResponse.getData());
-            }
-
-            @Override
-            public void onFailure(Call<BaseResponse<String>> call, Throwable t) {
-            }
-        });
-
-    }
 
     private void setText() {
         textView1.setText("已经给成员变量赋值了");
         textView2.setText("这是个输入框");
         textView3.setImageResource(R.mipmap.ic_launcher);
 
-        DataService dataService = RetrofitUtil.getInstance().create(DataService.class);
-        RetrofitUtil.getInstance().invoke(dataService.getList(), new IResponseCallBack<ReBean>(){
-            @Override
-            public void onSuccess(ReBean reBean) {
-            }
-
-            @Override
-            public void onError(Throwable e) {
-            }
-        });
     }
 
     @InjectClick({R.id.annotation1, R.id.annotation2, R.id.annotation3})

@@ -1,15 +1,19 @@
 package com.example.mykotlin.service;
 
-import com.example.mykotlin.ui.ReBean;
+import com.example.mykotlin.bean.HomeBean;
+import com.example.mykotlin.bean.ReBean;
 
 import io.reactivex.Observable;
-import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 
 public interface DataService {
-    @GET("todoTaskAppController/myTodoTask.lt")
-    Call<BaseResponse<String>> getAlreadyDoneList();
 
-    @GET("sug?code=utf-8&q=裤子")
+    @GET("wxarticle/chapters/json")
     Observable<ReBean> getList();
+
+    @GET("article/list/{page}/json")
+    Observable<BaseResponse<HomeBean>> getHomeList(@Path("page")String page);
+
+
 }

@@ -1,4 +1,4 @@
-package com.example.mykotlin.myview
+package com.example.mykotlin.view
 
 import android.animation.TypeEvaluator
 import android.graphics.RectF

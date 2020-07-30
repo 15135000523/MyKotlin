@@ -2,6 +2,11 @@ package com.example.mykotlin.service;
 
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -64,6 +69,7 @@ public class LogInterceptor implements Interceptor {
         String content = "";
         try {
             content = response.body().string();
+            content = toPrettyFormat(content);
             responseStr = responseStr + "body:" + content + "\n";
         } catch (IOException e) {
             e.printStackTrace();
@@ -73,6 +79,13 @@ public class LogInterceptor implements Interceptor {
         return response.newBuilder()
                 .body(ResponseBody.create(response.body().contentType(), content))
                 .build();
+    }
+
+    private  String toPrettyFormat(String json) {
+        JsonParser jsonParser = new JsonParser();
+        JsonObject jsonObject = jsonParser.parse(json).getAsJsonObject();
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        return gson.toJson(jsonObject);
     }
 
     static class Builder{

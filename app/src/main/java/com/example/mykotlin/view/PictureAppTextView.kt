@@ -1,11 +1,10 @@
-package com.example.mykotlin.myview
+package com.example.mykotlin.view
 
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.RectF
 import android.util.AttributeSet
-import android.widget.TextView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import com.example.mykotlin.R

@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/tab_main"
-        android:name="com.example.mykotlin.ui.main.fragment.MainFragment"
+        android:name="com.example.mykotlin.ui.main.fragment.main.MainFragment"
         android:label="首页" />
     <fragment
         android:id="@+id/tab_study"

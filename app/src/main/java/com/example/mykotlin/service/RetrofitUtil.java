@@ -1,10 +1,8 @@
 package com.example.mykotlin.service;
 
-import android.app.AppOpsManager;
 import android.util.Log;
 
 import java.io.File;
-import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -19,7 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitUtil {
 
-    public static final String BASE_URL = "https://suggest.taobao.com/";
+    public static final String BASE_URL = "https://wanandroid.com/";
     public final long OUT_TIME = 10 * 1000;
 
     public static RetrofitUtil retrofitUtil;
@@ -61,7 +59,7 @@ public class RetrofitUtil {
         return retrofit;
     }
 
-    public <Q> Q create(Class<Q> service) {
+    public <Q> Q  create(Class<Q> service) {
         Q q = retrofit().create(service);
         return q;
     }
@@ -73,7 +71,7 @@ public class RetrofitUtil {
      * @param callBack 用于将返回的数据回掉出去
      * @param <T>      具体的数据类型
      */
-    public <T> void invoke(Observable<T> t, IResponseCallBack<T> callBack) {
+    public <T> void invoke(Observable<T> t, ICallback<T> callBack) {
         t.subscribeOn(Schedulers.io())
                 .doOnSubscribe(onSubscribe-> Log.e("yan httpRequest","开始请求网络数据:"))
                 .observeOn(AndroidSchedulers.mainThread())
@@ -85,11 +83,51 @@ public class RetrofitUtil {
                     }
                     @Override
                     public void onError(Throwable e) {
-                        callBack.onError(e);
+                        callBack.onError(e.getMessage());
                     }
                     @Override
                     public void onComplete() { }
                 });
+    }
+
+
+    /**
+     * 使用rxjava
+     *
+     * @param t        接口返回的类型
+     * @param callBack 用于将返回的数据回掉出去
+     * @param <T>      具体的数据类型
+     */
+    public <T> void invoke(Observable<BaseResponse<T>> t, IBaseResponseCallBack<T> callBack) {
+        t.subscribeOn(Schedulers.io())
+                .doOnSubscribe(onSubscribe-> Log.e("yan httpRequest","开始请求网络数据:"))
+                .observeOn(AndroidSchedulers.mainThread())
+                .doFinally(()-> Log.e("yan httpResponse","数据请求结束"))
+                .subscribe(new DefaultObserver<BaseResponse<T>>() {
+                    @Override
+                    public void onNext(BaseResponse<T> response) {
+                        if(isSuccess(response.getCode()).equals("0")){
+                            callBack.onSuccess(response);
+                        }else{
+                            callBack.onError(response.getMessage());
+                        }
+                    }
+                    @Override
+                    public void onError(Throwable e) {
+                        callBack.onError(e.getMessage());
+                    }
+                    @Override
+                    public void onComplete() { }
+                });
+    }
+    private <T> String isSuccess(String code){
+        if(code.equals("0")){
+            return "0";
+        }else if(code.equals("100")){
+            return "没有更多数据";
+        }else{
+            return "其他错误";
+        }
     }
 
 }

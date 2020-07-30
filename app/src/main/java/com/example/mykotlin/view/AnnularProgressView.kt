@@ -1,17 +1,15 @@
-package com.example.mykotlin.myview
+package com.example.mykotlin.view
 
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
-import android.os.Build
 import android.text.StaticLayout
 import android.text.TextPaint
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
 import android.view.animation.LinearInterpolator
-import androidx.annotation.RequiresApi
 import com.example.mykotlin.R
 import com.example.mykotlin.utils.ViewUtils
 
