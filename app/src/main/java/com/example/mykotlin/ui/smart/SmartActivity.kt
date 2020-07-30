@@ -1,7 +1,9 @@
 package com.example.mykotlin.ui.smart
 
+import android.os.Build
 import android.os.Handler
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.mykotlin.R
@@ -19,6 +21,7 @@ class SmartActivity : BaseActivity<SmartViewModel, ActivitySmartBinding>() {
     override fun loadLayout(): Int = R.layout.activity_smart
     override fun initViewModel(): SmartViewModel = SmartViewModel()
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun initView() {
         mDataBinding.run {
             smartRefresh.setOnRefreshListener {
@@ -31,7 +34,7 @@ class SmartActivity : BaseActivity<SmartViewModel, ActivitySmartBinding>() {
                 mViewModel.getService(page.toString())
             }
             recycler.layoutManager = GridLayoutManager(this@SmartActivity, 3)
-            recycler.addItemDecoration(RecyclerDecoration())
+            recycler.addItemDecoration(RecyclerDecoration(this@SmartActivity,50))
             adapter = SmartAdapter(this@SmartActivity).also { recycler.adapter = it }
         }
         mViewModel.getService(page.toString())
