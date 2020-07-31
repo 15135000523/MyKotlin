@@ -73,5 +73,4 @@ public class RecyclerDecoration extends RecyclerView.ItemDecoration {
         }
         c.restore();
     }
-
 }
