@@ -20,7 +20,7 @@ class SmartActivity : BaseActivity<SmartViewModel, ActivitySmartBinding>() {
     var page: Int = 0
 
     override fun loadLayout(): Int = R.layout.activity_smart
-    override fun initViewModel(): SmartViewModel = SmartViewModel()
+    override fun initViewModel(): Class<SmartViewModel>? = SmartViewModel::class.java
 
     @SuppressLint("Range")
     @RequiresApi(Build.VERSION_CODES.M)
@@ -37,10 +37,9 @@ class SmartActivity : BaseActivity<SmartViewModel, ActivitySmartBinding>() {
                 page++
                 mViewModel.getService(page.toString())
             }
-//            DividerItemDecoration(this@SmartActivity, DividerItemDecoration.VERTICAL)
-//            recycler.layoutManager = GridLayoutManager(this@SmartActivity, 3)
+            recycler.layoutManager = GridLayoutManager(this@SmartActivity, 3)
 //            recycler.layoutManager = StaggeredGridLayoutManager(3,RecyclerView.VERTICAL)
-            recycler.layoutManager = LinearLayoutManager(this@SmartActivity)
+//            recycler.layoutManager = LinearLayoutManager(this@SmartActivity)
             recycler.addItemDecoration(RecyclerDecoration(this@SmartActivity, 20))
             adapter = SmartAdapter(this@SmartActivity).also { recycler.adapter = it }
         }

@@ -38,13 +38,13 @@ public class RecyclerDecoration extends RecyclerView.ItemDecoration {
         outRect.bottom = bottomHeight;
         outRect.right = 20;
         outRect.left = 20;
-//        int position = parent.getChildLayoutPosition(view);
-//        Log.e("-----","position:"+position+"取余："+position%3);
-//        if(position%3==2){
-//            outRect.right = 0;
-//        }else{
-//            outRect.right = 20;
-//        }
+        int position = parent.getChildLayoutPosition(view);
+        Log.e("-----","position:"+position+"取余："+position%3+",-总条数:"+(parent.getChildCount()-1));
+        if(position == parent.getChildCount()-1){
+            outRect.bottom = 0;
+        }else{
+            outRect.bottom = 20;
+        }
     }
 
     @Override
@@ -53,11 +53,13 @@ public class RecyclerDecoration extends RecyclerView.ItemDecoration {
 //        drawVertical(c,parent);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onDrawOver(@NonNull Canvas c, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
         super.onDrawOver(c, parent, state);
         myDraw(c,parent);
     }
+    @RequiresApi(api = Build.VERSION_CODES.M)
     private void myDraw(@NonNull Canvas c, @NonNull RecyclerView parent){
         c.save();
         final int childCount = parent.getChildCount();
@@ -67,9 +69,17 @@ public class RecyclerDecoration extends RecyclerView.ItemDecoration {
             final int right = child.getWidth()-child.getPaddingRight();
             //需要通过这个方法拿到子视图在canvas中的坐标
             parent.getDecoratedBoundsWithMargins(child, mBounds);
-            Log.e("myDraw","top:"+mBounds.top+"--bottom:"+mBounds.bottom);
+//            Log.e("myDraw","top:"+mBounds.top+"--bottom:"+mBounds.bottom);
             final int bottom = mBounds.bottom + Math.round(child.getTranslationY());
-            c.drawRect(left+20,bottom-20,right+20,bottom,mPaint);
+            mPaint.setColor(mContext.getColor(R.color.Green));
+            c.drawRect(mBounds.left+20,bottom-20,mBounds.right-20,bottom,mPaint);
+            if (i%2==0){
+                mPaint.setColor(mContext.getColor(R.color.Yellow));
+                c.drawRect(left,mBounds.top,left+20,mBounds.bottom-20,mPaint);
+            }else{
+                mPaint.setColor(mContext.getColor(R.color.Orange));
+                c.drawRect(mBounds.right-20,mBounds.top,mBounds.right,mBounds.bottom-20,mPaint);
+            }
         }
         c.restore();
     }

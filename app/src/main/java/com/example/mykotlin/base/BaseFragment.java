@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 public abstract class BaseFragment<VM extends BaseViewModel, V extends ViewDataBinding> extends Fragment implements IView {
 
@@ -20,7 +21,7 @@ public abstract class BaseFragment<VM extends BaseViewModel, V extends ViewDataB
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mDataBinding = (V) loadLayout(inflater,container);
-        mViewModel = initViewModel();
+        mViewModel = new ViewModelProvider(this).get(initViewModel());
         initView();
         initObserver();
         getLifecycle().addObserver(mViewModel);
@@ -29,5 +30,10 @@ public abstract class BaseFragment<VM extends BaseViewModel, V extends ViewDataB
 
     public abstract ViewDataBinding loadLayout(@NonNull LayoutInflater inflater, @Nullable ViewGroup container);
 
-    public abstract VM initViewModel();
+    public abstract Class<VM> initViewModel();
+
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
 }

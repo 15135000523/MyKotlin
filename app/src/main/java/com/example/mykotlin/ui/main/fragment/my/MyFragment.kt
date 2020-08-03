@@ -15,8 +15,8 @@ import com.example.mykotlin.ui.smart.SmartActivity
 
 class MyFragment : BaseFragment<MyViewModel,FragmentMyBinding>() {
 
-    override fun initViewModel(): MyViewModel = MyViewModel()
 
+    override fun initViewModel(): Class<MyViewModel> =MyViewModel::class.java
     override fun loadLayout(inflater: LayoutInflater, container: ViewGroup?): ViewDataBinding= FragmentMyBinding.inflate(inflater,container,false)
 
     override fun initView() {
@@ -28,5 +28,7 @@ class MyFragment : BaseFragment<MyViewModel,FragmentMyBinding>() {
     }
     override fun initObserver() {
     }
+
+
 
 }

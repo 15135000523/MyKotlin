@@ -6,6 +6,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 
 public abstract class BaseActivity<VM extends BaseViewModel, V extends ViewDataBinding> extends AppCompatActivity implements IView{
 
@@ -16,11 +18,12 @@ public abstract class BaseActivity<VM extends BaseViewModel, V extends ViewDataB
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mDataBinding = DataBindingUtil.setContentView(this,loadLayout());
-        mViewModel = initViewModel();
+        mViewModel =  new ViewModelProvider(this).get(initViewModel());
         initView();
         initObserver();
         getLifecycle().addObserver(mViewModel);
+       ;
     }
    public abstract int loadLayout();
-   public abstract VM initViewModel();
+   public abstract Class<VM> initViewModel();
 }

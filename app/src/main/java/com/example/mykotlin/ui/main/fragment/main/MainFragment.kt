@@ -15,7 +15,7 @@ import com.example.mykotlin.utils.DateUtils
 class MainFragment : BaseFragment<MainViewModel, FragmentMainBinding>() {
     lateinit var pvTime: TimePickerView
 
-    override fun initViewModel(): MainViewModel = MainViewModel()
+    override fun initViewModel(): Class<MainViewModel> = MainViewModel::class.java
     override fun loadLayout(inflater: LayoutInflater, container: ViewGroup?): ViewDataBinding {
         return FragmentMainBinding.inflate(inflater,container,false)
     }
