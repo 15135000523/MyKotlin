@@ -3,12 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.mykotlin">
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permissions.ACCESS_FINE_LOCATION" />
 
     <application
         android:name=".MyApplication"
@@ -20,7 +22,8 @@
         android:theme="@style/nobar"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.smart.SmartActivity"></activity>
+        <activity android:name=".ui.dilogFollow.DialogFollowActivity"/>
+        <activity android:name=".ui.smart.SmartActivity" />
         <activity android:name=".lifecycle.LifecycleActivity" />
         <activity android:name=".textAnnotation.TextAnnotationActivity" />
         <activity android:name=".login.LoginActivity" />

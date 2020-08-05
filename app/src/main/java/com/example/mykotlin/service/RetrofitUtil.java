@@ -1,6 +1,7 @@
 package com.example.mykotlin.service;
 
 import android.util.Log;
+import android.view.View;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;
@@ -65,7 +66,7 @@ public class RetrofitUtil {
 
     /**
      * 使用rxjava
-     *
+     * 此方法没有提供解析code值
      * @param t        接口返回的类型
      * @param callBack 用于将返回的数据回掉出去
      * @param <T>      具体的数据类型
@@ -80,10 +81,12 @@ public class RetrofitUtil {
                     public void onNext(T response) {
                         callBack.onSuccess(response);
                     }
+
                     @Override
                     public void onError(Throwable e) {
                         callBack.onError(e.getMessage());
                     }
+
                     @Override
                     public void onComplete() {
                     }
@@ -125,16 +128,54 @@ public class RetrofitUtil {
                 });
     }
 
+    /**
+     * 使用rxjava
+     * 这个方法是有baseResponse，集中处理了code值，只返回code=0的data，
+     * IOnRequest可以在请求开始前和结束时加一些额外的操作
+     * @param t        接口返回的类型
+     * @param callBack 用于将返回的数据回掉出去
+     * @param <T>      具体的数据类型
+     */
+    public <T> void invoke(Observable<BaseResponse<T>> t, IBaseResponseCallBack<T> callBack,IOnRequest onRequest) {
+        t.subscribeOn(Schedulers.io())
+                .doOnSubscribe(onSubscribe -> onRequest.requestBegin())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doFinally(() -> onRequest.requestEnd())
+                .subscribe(new DefaultObserver<BaseResponse<T>>() {
+                    @Override
+                    public void onNext(BaseResponse<T> response) {
+                        if (isSuccess(response.getCode()).equals("0")) {
+                            callBack.onSuccess(response);
+                        } else {
+                            callBack.onError(response.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callBack.onError(e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
+    }
+
+    /**
+     * 跟据对应的code值解析对应的数据
+     * @param code
+     * @return
+     */
     private String isSuccess(String code) {
         if (code.equals("0")) {
             return "0";
         } else if (code.equals("100")) {
             return "没有更多数据";
+        } else if (code.equals("102")) {
+            return "102";
         } else {
             return "其他错误";
         }
-    }
-    private void exitLogin(){
-
     }
 }

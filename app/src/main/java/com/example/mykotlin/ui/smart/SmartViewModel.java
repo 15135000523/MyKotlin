@@ -12,6 +12,7 @@ import com.example.mykotlin.service.IBaseResponseCallBack;
 
 public class SmartViewModel extends BaseViewModel {
     MutableLiveData<HomeBean> mData = new MutableLiveData<>();
+
     public void getService(String page) {
         httpUtil.invoke(httpUtil.create(DataService.class).getHomeList(page), new IBaseResponseCallBack<HomeBean>() {
             @Override

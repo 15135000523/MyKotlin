@@ -2,6 +2,7 @@ package com.example.mykotlin.ui.smart
 
 import android.annotation.SuppressLint
 import android.os.Build
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -46,6 +47,7 @@ class SmartActivity : BaseActivity<SmartViewModel, ActivitySmartBinding>() {
         mViewModel.getService(page.toString())
     }
 
+    @SuppressLint("ShowToast")
     override fun initObserver() {
         mViewModel.run {
             mData.observe(this@SmartActivity, Observer {
@@ -56,6 +58,9 @@ class SmartActivity : BaseActivity<SmartViewModel, ActivitySmartBinding>() {
                 }
                 adapter.setmList(it.datas as ArrayList<HomeBean.DatasBean>)
                 adapter.notifyDataSetChanged()
+            })
+            mError.observe(this@SmartActivity, Observer {
+                Toast.makeText(this@SmartActivity,it,Toast.LENGTH_SHORT).show();
             })
         }
     }

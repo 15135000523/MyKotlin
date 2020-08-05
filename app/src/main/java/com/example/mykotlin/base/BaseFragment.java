@@ -1,5 +1,6 @@
 package com.example.mykotlin.base;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,12 +26,22 @@ public abstract class BaseFragment<VM extends BaseViewModel, V extends ViewDataB
         initView();
         initObserver();
         getLifecycle().addObserver(mViewModel);
+        tokenError();
         return mDataBinding.getRoot();
     }
 
     public abstract ViewDataBinding loadLayout(@NonNull LayoutInflater inflater, @Nullable ViewGroup container);
 
     public abstract Class<VM> initViewModel();
+
+    @SuppressLint("FragmentLiveDataObserve")
+    private void tokenError(){
+        mViewModel.mError.observe(this,s-> {
+            if(s.equals("102")){//清除登录数据，重新登录
+                getActivity().finish();
+            }
+        });
+    }
 
     @Override
     public void onStop() {

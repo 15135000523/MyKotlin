@@ -1,38 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/item_smart"
+    android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white1"
+    android:background="@color/Yellow"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-   <ImageView
-       android:id="@+id/image"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       app:layout_constraintStart_toStartOf="parent"
-       app:layout_constraintTop_toTopOf="parent"
-       />
-    <TextView
-        android:id="@+id/title"
+    <ImageView
+        android:id="@+id/image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="这是文本内容"
-        android:textColor="@color/black"
-        android:textSize="12sp"
+        android:scaleType="center"
+        android:src="@mipmap/ic_launcher"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/image"
+        app:layout_constraintTop_toTopOf="parent"
         />
     <TextView
-        android:id="@+id/create_time"
+        android:id="@+id/context"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="这是文本内容"
+        android:gravity="center"
         android:textColor="@color/black"
-        android:textSize="10sp"
+        android:text="这是个文本"
         android:layout_marginTop="5dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintTop_toBottomOf="@id/image"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

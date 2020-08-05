@@ -8,6 +8,5 @@ import com.example.mykotlin.service.RetrofitUtil;
 
 public abstract class BaseViewModel extends ViewModel implements LifecycleObserver {
     protected RetrofitUtil httpUtil = RetrofitUtil.getInstance();
-    protected MutableLiveData<String> mError = new MutableLiveData<>();
-
+    public MutableLiveData<String> mError = new MutableLiveData<>();
 }
