@@ -1,4 +1,4 @@
-package com.example.mykotlin.service;
+package com.example.mykotlin.http;
 
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;

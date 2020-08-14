@@ -4,7 +4,7 @@ import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.mykotlin.service.RetrofitUtil;
+import com.example.mykotlin.http.RetrofitUtil;
 
 public abstract class BaseViewModel extends ViewModel implements LifecycleObserver {
     protected RetrofitUtil httpUtil = RetrofitUtil.getInstance();

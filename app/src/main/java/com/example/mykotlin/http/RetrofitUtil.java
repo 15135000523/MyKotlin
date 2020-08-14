@@ -1,7 +1,6 @@
-package com.example.mykotlin.service;
+package com.example.mykotlin.http;
 
 import android.util.Log;
-import android.view.View;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;

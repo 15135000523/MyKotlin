@@ -2,7 +2,6 @@ package com.example.mykotlin.textAnnotation;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -17,15 +16,8 @@ import com.example.mykotlin.annotation.AnalysisAnna;
 import com.example.mykotlin.annotation.InjectClick;
 import com.example.mykotlin.annotation.injectId;
 import com.example.mykotlin.lifecycle.LifecycleActivity;
-import com.example.mykotlin.service.BaseResponse;
-import com.example.mykotlin.service.DataService;
-import com.example.mykotlin.service.RetrofitUtil;
 
 import java.util.HashMap;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class TextAnnotationActivity extends AppCompatActivity {
     @injectId(R.id.annotation1)

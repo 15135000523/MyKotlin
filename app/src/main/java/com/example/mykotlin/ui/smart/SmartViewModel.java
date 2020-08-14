@@ -1,14 +1,12 @@
 package com.example.mykotlin.ui.smart;
 
-import android.util.Log;
-
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.mykotlin.base.BaseViewModel;
 import com.example.mykotlin.bean.HomeBean;
-import com.example.mykotlin.service.BaseResponse;
-import com.example.mykotlin.service.DataService;
-import com.example.mykotlin.service.IBaseResponseCallBack;
+import com.example.mykotlin.http.BaseResponse;
+import com.example.mykotlin.http.DataService;
+import com.example.mykotlin.http.IBaseResponseCallBack;
 
 public class SmartViewModel extends BaseViewModel {
     MutableLiveData<HomeBean> mData = new MutableLiveData<>();

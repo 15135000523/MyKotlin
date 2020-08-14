@@ -47,22 +47,22 @@ public class LocationUtils {
         String bestProvider = getProvider();
 
         if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            requestPermission();
+            requestPermission(activity);
             return;
         }
         Location location = myLocationManager.getLastKnownLocation(bestProvider);
         mLongitude = String.valueOf(location.getLongitude());
         mLatitude = String.valueOf(location.getLatitude());
 
-        Log.e("tude","Location" + "纬度：" + location.getLatitude() + "\n" +  "经度:  " + location.getLongitude());
+        Log.e("yan","纬度：" + location.getLatitude() + "\n" +  "经度:  " + location.getLongitude());
     }
 
     /**
      * 6.0动态申请权限
      */
-    private void requestPermission() {
+    private void requestPermission(Activity activity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//            requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_REQUEST_CODE_STORAGE);
+            activity.requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION}, 0x66);
         }
     }
     /**
@@ -85,7 +85,7 @@ public class LocationUtils {
         // 是否允许付费：是
         criteria.setCostAllowed(false);
         // 电量要求：低
-        criteria.setPowerRequirement(Criteria.POWER_LOW);
+        criteria.setPowerRequirement(Criteria.NO_REQUIREMENT);
         // 返回最合适的符合条件的provider，第2个参数为true说明 , 如果只有一个provider是有效的,则返回当前provider
         return myLocationManager.getBestProvider(criteria, true);
     }

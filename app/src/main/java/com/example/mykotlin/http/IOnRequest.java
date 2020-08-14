@@ -1,4 +1,4 @@
-package com.example.mykotlin.service;
+package com.example.mykotlin.http;
 
 public interface IOnRequest {
     void requestBegin();
