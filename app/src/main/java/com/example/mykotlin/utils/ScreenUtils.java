@@ -9,22 +9,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class ScreenUtils {
 
-    private static ScreenUtils instance;
-    private ScreenUtils(){}
-
-    public static ScreenUtils getInstance(){
-        if(instance==null){
-            synchronized (DialogUtils.class){
-                if (instance==null){
-                    instance = new ScreenUtils();
-                }
-            }
-        }
-        return instance;
-    }
-
     /**
      * 获取状态栏高度
+     *
      * @param context
      * @return
      */
@@ -35,16 +22,31 @@ public class ScreenUtils {
         return height;
     }
 
-    private static DisplayMetrics getDisplayMetrics(Context context){
-        AppCompatActivity activity = (AppCompatActivity) context;
-        DisplayMetrics displayMetrics=new DisplayMetrics();
-        activity.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+    private static DisplayMetrics getDisplayMetrics(Context context) {
+        DisplayMetrics displayMetrics = null;
+        if (displayMetrics == null) {
+            AppCompatActivity activity = (AppCompatActivity) context;
+            displayMetrics = new DisplayMetrics();
+            activity.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        }
         return displayMetrics;
     }
-    public static int getScreenHeight(Context context){
+
+    /**
+     * 获取屏幕高度
+     * @param context
+     * @return
+     */
+    public static int getScreenHeight(Context context) {
         return getDisplayMetrics(context).heightPixels;
     }
-    public static int getScreenWidth(Context context){
+
+    /**
+     * 获取屏幕宽度
+     * @param context
+     * @return
+     */
+    public static int getScreenWidth(Context context) {
         return getDisplayMetrics(context).widthPixels;
     }
 }

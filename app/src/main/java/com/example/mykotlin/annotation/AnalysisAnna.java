@@ -25,9 +25,9 @@ public class AnalysisAnna {
     public static void injectId(Activity activity) {
         Field[] fields = activity.getClass().getDeclaredFields();
         for (Field field : fields) {
-            boolean isHasAnnotation = field.isAnnotationPresent(injectId.class);
+            boolean isHasAnnotation = field.isAnnotationPresent(InjectId.class);
             if (isHasAnnotation) {
-                injectId annotation = field.getAnnotation(injectId.class);
+                InjectId annotation = field.getAnnotation(InjectId.class);
                 int viewId = annotation.value();
                 Method method = null;
                 try {
@@ -55,9 +55,9 @@ public class AnalysisAnna {
     public static void injectId(Fragment fragment) {
         Field[] fields = fragment.getClass().getDeclaredFields();
         for (Field field : fields) {
-            boolean isHasAnnotation = field.isAnnotationPresent(injectId.class);
+            boolean isHasAnnotation = field.isAnnotationPresent(InjectId.class);
             if (isHasAnnotation) {
-                injectId annotation = field.getAnnotation(injectId.class);
+                InjectId annotation = field.getAnnotation(InjectId.class);
                 int viewId = annotation.value();
                 Method getView = null;
                 try {

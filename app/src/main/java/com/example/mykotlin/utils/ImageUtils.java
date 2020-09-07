@@ -8,6 +8,12 @@ import top.zibin.luban.Luban;
 import top.zibin.luban.OnCompressListener;
 
 public class ImageUtils {
+    /**
+     * 鲁班图片压缩
+     * @param path 图片路径
+     * @param context 上下文
+     * @return 压缩后的图片路径
+     */
     public static String compressImage(String path, Context context){
         FileUtils.createOrExistsDir(FileUtils.COMPRESS_PATH);
         final String[] newPath = new String[1];

@@ -12,20 +12,20 @@ import android.widget.TextView;
 import com.example.mykotlin.R;
 import com.example.mykotlin.annotation.AnalysisAnna;
 import com.example.mykotlin.annotation.InjectClick;
-import com.example.mykotlin.annotation.injectId;
+import com.example.mykotlin.annotation.InjectId;
 
 /**
  * A simple {@link Fragment} subclass.
  * create an instance of this fragment.
  */
 public class TextAnnotationFragment extends Fragment {
-    @injectId(R.id.aaaa1)
+    @InjectId(R.id.aaaa1)
     private TextView text1;
-    @injectId(R.id.aaaa2)
+    @InjectId(R.id.aaaa2)
     private TextView text2;
-    @injectId(R.id.aaaa3)
+    @InjectId(R.id.aaaa3)
     private TextView text3;
-    @injectId(R.id.aaaa4)
+    @InjectId(R.id.aaaa4)
     private TextView text4;
 
 

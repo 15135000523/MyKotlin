@@ -23,15 +23,20 @@
         android:theme="@style/nobar"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.dilogFollow.DialogFollowActivity"/>
+        <activity android:name=".ui.medio.MediaSessionPlaybackActivity"
+            android:supportsPictureInPicture="true"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"/>
+        <activity android:name=".ui.medio.MediaActivity"
+            android:supportsPictureInPicture="true"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"/>
+        <activity android:name=".ui.dilogFollow.DialogFollowActivity" />
         <activity android:name=".ui.smart.SmartActivity" />
         <activity android:name=".lifecycle.LifecycleActivity" />
         <activity android:name=".textAnnotation.TextAnnotationActivity" />
         <activity android:name=".login.LoginActivity" />
-        <activity android:name=".ui.main.MainActivity"
-            android:launchMode="singleTask"
-            />
-        <service android:name=".service.ForegroundService"/>
+        <activity
+            android:name=".ui.main.MainActivity"
+            android:launchMode="singleTask" />
 
         <activity-alias
             android:name=".kotlin"
@@ -43,6 +48,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity-alias>
+
+        <service android:name=".service.ForegroundService" />
     </application>
 
 </manifest>

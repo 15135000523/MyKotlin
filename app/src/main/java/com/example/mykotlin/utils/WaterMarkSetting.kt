@@ -9,7 +9,9 @@ import android.text.Layout
 import android.text.StaticLayout
 import android.text.TextPaint
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.WindowManager
+import com.example.mykotlin.utils.ScreenUtils.*
 
 
 class WaterMarkSetting {
@@ -24,29 +26,29 @@ class WaterMarkSetting {
             canvas.drawBitmap(bitmap, 0f, 0f, paint)
 
             //画水印文本
-//            var textPaint = TextPaint()
-//            textPaint.setARGB(0xFF, 0xff, 0, 0)
-//            textPaint.textSize = ViewUtils.dp2px(16f) * bitmap.width / getScreenWidth(context)
-//            textPaint.textAlign = Paint.Align.LEFT
-//
-//            var layout = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//                StaticLayout.Builder.obtain(waterMark, 0, waterMark.length, textPaint, ViewUtils.dp2px(600f).toInt()).build()
-//            } else {
-//                StaticLayout(waterMark, textPaint, ViewUtils.dp2px(600f).toInt(),
-//                        Layout.Alignment.ALIGN_NORMAL, 1.0F, 0.0F, true)
-//            }
-//            var textOffsetX = 0F
-//            var textOffsetY = 0F
+            var textPaint = TextPaint()
+            textPaint.setARGB(0xFF, 0xff, 0, 0)
+            textPaint.textSize = ViewUtils.dp2px(16f) * bitmap.width / getScreenWidth(context)
+            textPaint.textAlign = Paint.Align.LEFT
+
+            var layout = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                StaticLayout.Builder.obtain(waterMark, 0, waterMark.length, textPaint, ViewUtils.dp2px(600f).toInt()).build()
+            } else {
+                StaticLayout(waterMark, textPaint, ViewUtils.dp2px(600f).toInt(),
+                        Layout.Alignment.ALIGN_NORMAL, 1.0F, 0.0F, true)
+            }
+            var textOffsetX = (bitmap.width/20).toFloat()
+            var textOffsetY = (bitmap.height/20).toFloat()
 //            if (bitmap.width > getScreenWidth(context)) {
 //                textOffsetX = (bitmap.width - getScreenWidth(context)) / 2f
 //            }
 //            if (bitmap.height > getScreenHeight(context)) {
 //                textOffsetY = (bitmap.height - getScreenHeight(context)) / 2f
 //            }
-//            canvas.translate(textOffsetX, textOffsetY)
-//            layout.draw(canvas)
-//            canvas.save()
-//            canvas.restore()
+            canvas.translate(textOffsetX, textOffsetY)
+            layout.draw(canvas)
+            canvas.save()
+            canvas.restore()
 
             return newMap
         }

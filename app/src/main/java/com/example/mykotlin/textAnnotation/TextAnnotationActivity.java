@@ -14,25 +14,25 @@ import androidx.fragment.app.FragmentManager;
 import com.example.mykotlin.R;
 import com.example.mykotlin.annotation.AnalysisAnna;
 import com.example.mykotlin.annotation.InjectClick;
-import com.example.mykotlin.annotation.injectId;
+import com.example.mykotlin.annotation.InjectId;
 import com.example.mykotlin.lifecycle.LifecycleActivity;
 
 import java.util.HashMap;
 
 public class TextAnnotationActivity extends AppCompatActivity {
-    @injectId(R.id.annotation1)
+    @InjectId(R.id.annotation1)
     private TextView textView1;
-    @injectId(R.id.annotation2)
+    @InjectId(R.id.annotation2)
     private EditText textView2;
-    @injectId(R.id.annotation3)
+    @InjectId(R.id.annotation3)
     private ImageView textView3;
-    @injectId(R.id.annotation4)
+    @InjectId(R.id.annotation4)
     private TextView textView4;
-    @injectId(R.id.annotation5)
+    @InjectId(R.id.annotation5)
     private TextView textView5;
-    @injectId(R.id.annotation6)
+    @InjectId(R.id.annotation6)
     private TextView textView6;
-    @injectId(R.id.framelayout)
+    @InjectId(R.id.framelayout)
     private FrameLayout frameLayout;
 
     private TextAnnotationFragment fragment;
@@ -63,7 +63,7 @@ public class TextAnnotationActivity extends AppCompatActivity {
         if (v.getId() == R.id.annotation1) {
            startActivity(new Intent(TextAnnotationActivity.this, LifecycleActivity.class));
         } else if (v.getId() == R.id.annotation2) {
-            textView2.setText("点击这么猛烈");
+            textView2.setText("点击了第二个");
         } else {
             textView3.setImageResource(R.mipmap.ic_launcher_round);
         }

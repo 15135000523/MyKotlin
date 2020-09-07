@@ -2,18 +2,26 @@ package com.example.mykotlin.ui.main.fragment.my
 
 
 import android.content.Intent
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startForegroundService
 import androidx.databinding.ViewDataBinding
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.example.mykotlin.base.BaseFragment
 import com.example.mykotlin.databinding.FragmentMyBinding
 import com.example.mykotlin.service.ForegroundService
 import com.example.mykotlin.ui.dilogFollow.DialogFollowActivity
+import com.example.mykotlin.ui.medio.MediaActivity
 import com.example.mykotlin.ui.smart.SmartActivity
+import com.example.mykotlin.utils.GlideOptionsSetting
 import com.example.mykotlin.utils.LocationUtils
+import com.example.mykotlin.utils.WaterMarkSetting.Companion.createWatermarkBitMap
 
 
 class MyFragment : BaseFragment<MyViewModel, FragmentMyBinding>() {
@@ -47,7 +55,21 @@ class MyFragment : BaseFragment<MyViewModel, FragmentMyBinding>() {
                     Toast.makeText(context, "前台服务正在运行中...", Toast.LENGTH_SHORT).show()
                 }
             }
+            video.setOnClickListener {
+                startActivity(Intent(activity, MediaActivity::class.java))
+            }
         }
+        Glide.with(this).load("https://img-blog.csdnimg.cn/20190122173452703.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQwMTE2NDE4,size_16,color_FFFFFF,t_70")
+            .into(object : CustomTarget<Drawable?>() {
+                override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable?>?) {
+                    var map = activity?.let {
+                        createWatermarkBitMap(
+                            (resource as BitmapDrawable).bitmap,
+                            "waterMark\n大厦或多个\n到货时间过的", it) }
+                    Glide.with(this@MyFragment).load(map).into(mDataBinding.image)
+                }
+                override fun onLoadCleared(placeholder: Drawable?) {}
+            })
 
     }
 

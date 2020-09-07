@@ -162,6 +162,7 @@ public class RetrofitUtil {
     }
 
     /**
+     * ARouter
      * 跟据对应的code值解析对应的数据
      * @param code
      * @return
@@ -176,5 +177,6 @@ public class RetrofitUtil {
         } else {
             return "其他错误";
         }
+
     }
 }

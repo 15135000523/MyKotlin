@@ -16,6 +16,7 @@ import androidx.core.app.ActivityCompat;
 
 public class LocationUtils {
     private LocationManager myLocationManager;
+    public Location alocation;
 
     private static LocationUtils locationUtils;
 
@@ -45,16 +46,20 @@ public class LocationUtils {
 
         // 为获取地理位置信息时设置查询条件 是按GPS定位还是network定位
         String bestProvider = getProvider();
+        Log.e(ClassUtils.getInstance().getClassName(LocationUtils.class),"locationProvider:"+bestProvider);
 
         if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermission(activity);
             return;
         }
-        Location location = myLocationManager.getLastKnownLocation(bestProvider);
-        mLongitude = String.valueOf(location.getLongitude());
-        mLatitude = String.valueOf(location.getLatitude());
+        alocation = myLocationManager.getLastKnownLocation(bestProvider);
 
-        Log.e("yan","纬度：" + location.getLatitude() + "\n" +  "经度:  " + location.getLongitude());
+        myLocationManager.requestLocationUpdates(bestProvider, 5000, 50, listener);
+        if(alocation!=null){
+            mLongitude = String.valueOf(alocation.getLongitude());
+            mLatitude = String.valueOf(alocation.getLatitude());
+            Log.e(ClassUtils.getInstance().getClassName(LocationUtils.class),"纬度：" + alocation.getLatitude() + "\n" +  "经度:  " + alocation.getLongitude());
+        }
     }
 
     /**
@@ -84,10 +89,36 @@ public class LocationUtils {
         criteria.setBearingRequired(false);
         // 是否允许付费：是
         criteria.setCostAllowed(false);
-        // 电量要求：低
-        criteria.setPowerRequirement(Criteria.NO_REQUIREMENT);
+        //设置电量要求
+        criteria.setPowerRequirement(Criteria.ACCURACY_FINE);
         // 返回最合适的符合条件的provider，第2个参数为true说明 , 如果只有一个provider是有效的,则返回当前provider
         return myLocationManager.getBestProvider(criteria, true);
     }
+
+    private LocationListener listener = new LocationListener() {
+        @Override
+        public void onLocationChanged(Location location) {
+            alocation = location;
+            Log.e(ClassUtils.getInstance().getClassName(LocationUtils.class),"is5mins:");
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+            //定位方式改变调用当前方法
+            Log.e(ClassUtils.getInstance().getClassName(LocationUtils.class),"onStatusChanged:"+provider);
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+            //开启gps调用当前方法
+            Log.e(ClassUtils.getInstance().getClassName(LocationUtils.class),"onProviderEnabled:"+provider);
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+            //关闭gps调用当前方法
+            Log.e(ClassUtils.getInstance().getClassName(LocationUtils.class),"onProviderDisabled:"+provider);
+        }
+    };
 
 }

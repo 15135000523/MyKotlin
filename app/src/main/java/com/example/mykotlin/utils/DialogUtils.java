@@ -23,6 +23,11 @@ public class DialogUtils {
         return instance;
     }
 
+    /**
+     * 创建弹窗
+     * @param context
+     * @param location 弹窗显示的位置
+     */
     public void createDialog(Context context,View location){
         View view  = LayoutInflater.from(context).inflate(R.layout.item_smart,null,false);
         PopupWindow window = new PopupWindow();
