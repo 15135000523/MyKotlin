@@ -39,12 +39,7 @@ class WaterMarkSetting {
             }
             var textOffsetX = (bitmap.width/20).toFloat()
             var textOffsetY = (bitmap.height/20).toFloat()
-//            if (bitmap.width > getScreenWidth(context)) {
-//                textOffsetX = (bitmap.width - getScreenWidth(context)) / 2f
-//            }
-//            if (bitmap.height > getScreenHeight(context)) {
-//                textOffsetY = (bitmap.height - getScreenHeight(context)) / 2f
-//            }
+
             canvas.translate(textOffsetX, textOffsetY)
             layout.draw(canvas)
             canvas.save()

@@ -54,11 +54,24 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/service"
             />
+        <TextView
+            android:id="@+id/fold"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:text="折叠屏"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/video"
+            />
         <com.github.chrisbanes.photoview.PhotoView
             android:id="@+id/image"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:scaleType="centerInside"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/video"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -23,12 +23,16 @@
         android:theme="@style/nobar"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.medio.MediaSessionPlaybackActivity"
-            android:supportsPictureInPicture="true"
-            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"/>
-        <activity android:name=".ui.medio.MediaActivity"
-            android:supportsPictureInPicture="true"
-            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"/>
+        <activity android:name=".ui.youku.main.YoukuMainActivity"></activity>
+        <activity android:name=".ui.fold.FoldActivity" />
+        <activity
+            android:name=".ui.medio.MediaSessionPlaybackActivity"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+            android:supportsPictureInPicture="true" />
+        <activity
+            android:name=".ui.medio.MediaActivity"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+            android:supportsPictureInPicture="true" />
         <activity android:name=".ui.dilogFollow.DialogFollowActivity" />
         <activity android:name=".ui.smart.SmartActivity" />
         <activity android:name=".lifecycle.LifecycleActivity" />
