@@ -1,14 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.main.fragment.study.StudyFragment">
+    android:layout_height="match_parent">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical"
+        tools:context=".ui.main.fragment.study.StudyFragment">
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/main_sex"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="男"
+            android:visibility="gone"
+
+            />
+
+        <TextView
+            android:id="@+id/main_aihao"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="爱好"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/main_jianjie"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="都干啥规划"
+            android:visibility="gone" />
+
+        <com.example.mykotlin.view.MyView
+            android:id="@+id/main_my"
+            android:layout_width="300dp"
+            android:layout_height="400dp" />
+
+        <com.example.mykotlin.view.CanvasText
+            android:id="@+id/main_canvas"
+            android:layout_width="400dp"
+            android:layout_height="500dp"
+            android:layout_centerInParent="true" />
+
+        <com.example.mykotlin.view.PictureAppTextView
+            android:id="@+id/main_img"
+            android:layout_width="400dp"
+            android:layout_height="500dp"
+            android:layout_centerInParent="true"
+            android:src="@mipmap/liu"
+            android:text="觉得啥叫活动空间" />
+
+        <com.example.mykotlin.view.AnnularProgressView
+            android:id="@+id/main_progress"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:background="@color/blue"
+            android:paddingLeft="3dp"
+            app:allProgress="100"
+            app:annularColor="@color/Yellow"
+            app:annularWidth="4dp"
+            app:finishProgress="90"
+            app:progressColor="@color/Orange"
+            app:progressTextSize="20sp"
+            app:synopsisText="巡检总数"
+            app:synopsisTextSize="12sp"
+            app:textColor="@color/white"
+            tools:ignore="MissingConstraints" />
+
+        <com.example.mykotlin.view.MesureTextWidthView
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:background="@color/Yellow"
+            tools:ignore="MissingConstraints" />
+    </LinearLayout>
+
+</ScrollView>

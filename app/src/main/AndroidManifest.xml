@@ -15,32 +15,52 @@
 
     <application
         android:name=".MyApplication"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/nobar"
         android:usesCleartextTraffic="true"
-        tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.youku.main.YoukuMainActivity"></activity>
-        <activity android:name=".ui.fold.FoldActivity" />
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:targetApi="m">
+        <activity android:name=".ui.bottomappbar.BottomAppbarActivity"
+            android:label="@string/BottomAppbarActivity" />
+        <activity android:name=".ui.youku.main.YoukuMainActivity"
+            android:label="@string/YoukuMainActivity"/>
+        <activity android:name=".ui.fold.FoldActivity"
+            android:label="@string/FoldActivity"
+            />
         <activity
             android:name=".ui.medio.MediaSessionPlaybackActivity"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
-            android:supportsPictureInPicture="true" />
+            android:supportsPictureInPicture="true"
+            android:label="@string/MediaSessionPlaybackActivity"
+            tools:targetApi="n" />
         <activity
             android:name=".ui.medio.MediaActivity"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
-            android:supportsPictureInPicture="true" />
-        <activity android:name=".ui.dilogFollow.DialogFollowActivity" />
-        <activity android:name=".ui.smart.SmartActivity" />
-        <activity android:name=".lifecycle.LifecycleActivity" />
-        <activity android:name=".textAnnotation.TextAnnotationActivity" />
-        <activity android:name=".login.LoginActivity" />
+            android:supportsPictureInPicture="true"
+            android:label="@string/MediaActivity"
+            tools:targetApi="n" />
+        <activity android:name=".ui.dilogFollow.DialogFollowActivity"
+            android:label="@string/DialogFollowActivity"
+            />
+        <activity android:name=".ui.smart.SmartActivity"
+            android:label="@string/SmartActivity"/>
+
+        <activity android:name=".lifecycle.LifecycleActivity"
+            android:label="@string/LifecycleActivity" />
+
+        <activity android:name=".textAnnotation.TextAnnotationActivity"
+            android:label="@string/TextAnnotationActivity"/>
+        <activity android:name=".login.LoginActivity"
+            android:label="@string/loginActivity"/>
         <activity
             android:name=".ui.main.MainActivity"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:label="@string/MainActivity"
+            />
 
         <activity-alias
             android:name=".kotlin"
@@ -53,7 +73,8 @@
             </intent-filter>
         </activity-alias>
 
-        <service android:name=".service.ForegroundService" />
+        <service android:name=".service.ForegroundService"
+            android:label="前台服务"/>
     </application>
 
 </manifest>

@@ -17,7 +17,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitUtil {
 
-    public static final String BASE_URL = "https://wanandroid.com/";
+//    public static final String BASE_URL = "https://wanandroid.com/";
+    public static final String BASE_URL = "https://s2.gjdwllgdgs.com:30001/pwkshApp/";
     public final long OUT_TIME = 10 * 1000;
 
     public static RetrofitUtil retrofitUtil;

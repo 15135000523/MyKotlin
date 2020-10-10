@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/next_btn"
+        android:checked="true"
+        android:icon="@mipmap/add"
+        android:title="add"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/next_home"
+        android:checked="true"
+        android:icon="@drawable/home"
+        android:title="home"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/next_study"
+        android:checked="true"
+        android:icon="@drawable/study"
+        android:title="study"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_settings"
+        android:title="Settings" />
+
+
+</menu>

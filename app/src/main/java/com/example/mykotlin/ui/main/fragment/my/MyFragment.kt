@@ -2,12 +2,17 @@ package com.example.mykotlin.ui.main.fragment.my
 
 
 import android.content.Intent
+import android.content.pm.ActivityInfo
+import android.content.pm.PackageManager
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat.startForegroundService
 import androidx.databinding.ViewDataBinding
 import com.bumptech.glide.Glide
@@ -16,12 +21,10 @@ import com.bumptech.glide.request.transition.Transition
 import com.example.mykotlin.base.BaseFragment
 import com.example.mykotlin.databinding.FragmentMyBinding
 import com.example.mykotlin.service.ForegroundService
-import com.example.mykotlin.ui.dilogFollow.DialogFollowActivity
-import com.example.mykotlin.ui.fold.FoldActivity
-import com.example.mykotlin.ui.medio.MediaActivity
-import com.example.mykotlin.ui.smart.SmartActivity
 import com.example.mykotlin.utils.LocationUtils
 import com.example.mykotlin.utils.WaterMarkSetting.Companion.createWatermarkBitMap
+import java.lang.Exception
+import java.lang.reflect.Field
 
 
 class MyFragment : BaseFragment<MyViewModel, FragmentMyBinding>() {
@@ -33,24 +36,54 @@ class MyFragment : BaseFragment<MyViewModel, FragmentMyBinding>() {
         FragmentMyBinding.inflate(inflater, container, false)
 
     override fun initView() {
-        mDataBinding.run {
-            smart.setOnClickListener {
-                startActivity(Intent(activity, SmartActivity::class.java))
+        requireActivity().packageManager.getPackageInfo(
+            requireActivity().packageName,
+            PackageManager.GET_ACTIVITIES
+        ).activities
+            .filterNot { it.name == this::class.java.name }
+            .filterNot { it.name == "leakcanary.internal.activity.LeakLauncherActivity" }
+            .filterNot { it.name == "com.example.mykotlin.kotlin" }
+            .filterNot { it.name == "com.example.mykotlin.ui.main.MainActivity" }
+            .filterNot { it.name == "com.example.mykotlin.ui.medio.MediaSessionPlaybackActivity" }
+            .filterNot { it.name == "com.example.mykotlin.lifecycle.LifecycleActivity" }
+            .map {
+                Class.forName(it.name)
             }
-            follow.setOnClickListener {
-                startActivity(Intent(activity, DialogFollowActivity::class.java))
+            .forEach { clazz ->
+
             }
-            service.setOnClickListener {
-                initService();
+
+
+//        setWaterMarkImage()
+        getActivitys()
+    }
+
+    private fun getActivitys() {
+        var info = requireActivity().packageManager.getPackageInfo(
+            requireActivity().packageName,
+            PackageManager.GET_ACTIVITIES
+        )
+        info.activities.filterNot { it.name == this::class.java.name }
+            .filterNot { it.name == "leakcanary.internal.activity.LeakLauncherActivity" }
+            .filterNot { it.name == "com.example.mykotlin.kotlin" }
+            .filterNot { it.name == "com.example.mykotlin.ui.main.MainActivity" }
+            .filterNot { it.name == "com.example.mykotlin.ui.medio.MediaSessionPlaybackActivity" }
+            .filterNot { it.name == "com.example.mykotlin.lifecycle.LifecycleActivity" }.forEach {
+                try {
+                    mDataBinding.root.addView(AppCompatButton(requireContext()).apply {
+                        isAllCaps = false
+                        text = resources.getString(it.labelRes)
+                        setOnClickListener (object :View.OnClickListener{
+                            override fun onClick(v: View?) {
+                                startActivity(Intent(requireContext(),Class.forName(it.name)))
+                            }
+                        })
+                    })
+                } catch (e: Exception) {
+
+                }
+
             }
-            video.setOnClickListener {
-                startActivity(Intent(activity, MediaActivity::class.java))
-            }
-            fold.setOnClickListener {
-                startActivity(Intent(activity, FoldActivity::class.java))
-            }
-        }
-        setWaterMarkImage()
     }
 
     fun setWaterMarkImage() {
@@ -89,6 +122,7 @@ class MyFragment : BaseFragment<MyViewModel, FragmentMyBinding>() {
             Toast.makeText(context, "前台服务正在运行中...", Toast.LENGTH_SHORT).show()
         }
     }
+
 
     override fun initObserver() {
         LocationUtils.getInstance().create(activity)

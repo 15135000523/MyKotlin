@@ -1,15 +1,18 @@
 package com.example.mykotlin.ui.main.fragment.main
 
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.databinding.ViewDataBinding
 import com.bigkoo.pickerview.TimePickerView
 import com.example.mykotlin.R
 import com.example.mykotlin.base.BaseFragment
 import com.example.mykotlin.databinding.FragmentMainBinding
 import com.example.mykotlin.utils.DateUtils
+import com.example.mykotlin.utils.StatusUtil
 
 
 class MainFragment : BaseFragment<MainViewModel, FragmentMainBinding>() {
@@ -22,6 +25,7 @@ class MainFragment : BaseFragment<MainViewModel, FragmentMainBinding>() {
 
     override fun initObserver() {
     }
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun initView() {
         createTimePicker();
         mDataBinding.run {
@@ -29,6 +33,7 @@ class MainFragment : BaseFragment<MainViewModel, FragmentMainBinding>() {
                 pvTime.show(this.mainName)
             }
         }
+        activity?.getColor(R.color.Yellow)?.let { StatusUtil.setStatusBarColor(activity, it) }
     }
 
     /**

@@ -1,81 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         tools:context=".ui.main.fragment.my.MyFragment">
+
         <TextView
             android:id="@+id/smart"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:text="上拉加载，下拉刷新"
-            android:background="@color/colorPrimary"
-            android:textColor="@color/white"
-            android:gravity="center"
             android:layout_marginTop="10dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
+
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:text="上拉加载，下拉刷新"
+            android:textColor="@color/white"
+            android:visibility="gone" />
+
         <TextView
             android:id="@+id/follow"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:text="弹窗跟随item"
-            android:background="@color/colorPrimary"
-            android:textColor="@color/white"
-            android:gravity="center"
             android:layout_marginTop="10dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/smart"
-            />
+
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:text="弹窗跟随item"
+            android:textColor="@color/white"
+            android:visibility="gone" />
+
         <TextView
             android:id="@+id/service"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:text="前台服务"
-            android:background="@color/colorPrimary"
-            android:textColor="@color/white"
-            android:gravity="center"
             android:layout_marginTop="10dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/follow"
-            />
+
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:text="前台服务"
+            android:textColor="@color/white"
+            android:visibility="gone" />
+
         <TextView
             android:id="@+id/video"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:text="视频"
-            android:background="@color/colorPrimary"
-            android:textColor="@color/white"
-            android:gravity="center"
             android:layout_marginTop="10dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/service"
-            />
+            android:background="@color/colorPrimary"
+
+            android:gravity="center"
+            android:text="视频"
+            android:textColor="@color/white"
+            android:visibility="gone" />
+
         <TextView
             android:id="@+id/fold"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:text="折叠屏"
-            android:background="@color/colorPrimary"
-            android:textColor="@color/white"
-            android:gravity="center"
             android:layout_marginTop="10dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/video"
-            />
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:text="折叠屏"
+            android:textColor="@color/white"
+
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/bottom_app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:text="底部不规则导航"
+
+            android:textColor="@color/white"
+            android:visibility="gone" />
+
         <com.github.chrisbanes.photoview.PhotoView
             android:id="@+id/image"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:scaleType="centerInside"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/video"
-            app:layout_constraintBottom_toBottomOf="parent"
-            />
+            android:visibility="gone" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </layout>
