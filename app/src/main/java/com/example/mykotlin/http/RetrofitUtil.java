@@ -2,7 +2,10 @@ package com.example.mykotlin.http;
 
 import android.util.Log;
 
+import com.example.mykotlin.utils.FileUtils;
+
 import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -19,7 +22,11 @@ public class RetrofitUtil {
 
 //    public static final String BASE_URL = "https://wanandroid.com/";
     public static final String BASE_URL = "https://s2.gjdwllgdgs.com:30001/pwkshApp/";
+
+
     public final long OUT_TIME = 10 * 1000;
+    public final  long CACHE_MAX_SIZE = 1024*1024*10;
+    public final  String CACHE_FILE_PATH = FileUtils.getExternalStoragePath()+"/cache/mykotlin";
 
     public static RetrofitUtil retrofitUtil;
 
@@ -40,7 +47,7 @@ public class RetrofitUtil {
         if (okHttpClient == null) {
             okHttpClient = new OkHttpClient.Builder()
                     .callTimeout(OUT_TIME, TimeUnit.SECONDS)
-                    .cache(new Cache(new File(""), 1024 * 1024))
+                    .cache(new Cache(createFile(), CACHE_MAX_SIZE))
                     .sslSocketFactory(HttpsSSL.createSSLSocketFactory(), new HttpsSSL())
                     .addInterceptor(new LogInterceptor.Builder().build())
                     .build();
@@ -160,6 +167,18 @@ public class RetrofitUtil {
                     public void onComplete() {
                     }
                 });
+    }
+
+    private File createFile(){
+        File file = new File(CACHE_FILE_PATH);
+        if(file.exists()){
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return file;
     }
 
     /**

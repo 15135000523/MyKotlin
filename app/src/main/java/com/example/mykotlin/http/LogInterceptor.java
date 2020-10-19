@@ -26,28 +26,29 @@ public class LogInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request;
-        if(builder.headers.size()>0){
-            Request.Builder a =  chain.request().newBuilder();
+        if (builder.headers.size() > 0) {
+            Request.Builder a = chain.request().newBuilder();
             for (String s : builder.headers.keySet()) {
-               a.addHeader(s, builder.headers.get(s));
+                a.addHeader(s, builder.headers.get(s));
             }
             request = a.build();
-        }else{
+        } else {
             request = chain.request();
         }
+        request = request.newBuilder().addHeader("Cache-Control", "public").build();
         printRequest(request);
 
         Response response = chain.proceed(request);
 
-        return  printResponse(response);
+        return printResponse(response);
     }
 
     private void printRequest(Request request) {
         String requestStr = "url:\n" + request.url().toString() + "\n";
-        requestStr = requestStr + "method:" + request.method().toString() + "\n";
+        requestStr = requestStr + "method:" + request.method() + "\n";
         if (request.headers().names().size() > 0) {
             for (String name : request.headers().names()) {
-                requestStr += "header-)" + name + ":" + request.header(name);
+                requestStr += "header->" + name + ":" + request.header(name);
             }
         } else {
             requestStr += "当前接口没有请求头";
@@ -59,21 +60,26 @@ public class LogInterceptor implements Interceptor {
         String responseStr = "url:\n" + response.request().url() + "\n";
         responseStr = responseStr + "code:" + response.code() + "\n";
         String headers = "";
-        if( response.headers().size()>0){
-            headers ="header:\n";
-            for (String name : response.headers().names()) {
-                headers += name + ":" + response.header(name)+"\n";
+        String content = "";//返回的json
+        if (response.code() == 200 || response.code() == 304) {
+            if (response.headers().size() > 0) {
+                headers = "header:\n";
+                for (String name : response.headers().names()) {
+                    headers += name + ":" + response.header(name) + "\n";
+                }
             }
+            responseStr = responseStr + headers + "\n";
+            try {
+                content = response.body().string();
+                content = toPrettyFormat(content);
+                responseStr = responseStr + "body:" + content + "\n";
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+
         }
-        responseStr = responseStr + headers + "\n";
-        String content = "";
-        try {
-            content = response.body().string();
-            content = toPrettyFormat(content);
-            responseStr = responseStr + "body:" + content + "\n";
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
         Log.e("yan httpResponse", responseStr);
 
         return response.newBuilder()
@@ -81,24 +87,25 @@ public class LogInterceptor implements Interceptor {
                 .build();
     }
 
-    private  String toPrettyFormat(String json) {
-        JsonParser jsonParser = new JsonParser();
-        JsonObject jsonObject = jsonParser.parse(json).getAsJsonObject();
+    private String toPrettyFormat(String json) {
+        JsonObject jsonObject = JsonParser.parseString(json).getAsJsonObject();
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         return gson.toJson(jsonObject);
     }
 
-    static class Builder{
-        private HashMap<String,String> headers;
-        public Builder(){
+    static class Builder {
+        private HashMap<String, String> headers;
+
+        public Builder() {
             headers = new HashMap<>();
         }
-        public Builder addHeader(String key,String value){
-            headers.put(key,value);
+
+        public Builder addHeader(String key, String value) {
+            headers.put(key, value);
             return this;
         }
 
-        public LogInterceptor build(){
+        public LogInterceptor build() {
             return new LogInterceptor(this);
         }
     }
