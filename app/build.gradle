@@ -30,7 +30,7 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-        buildTypes {
+    buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -93,9 +93,9 @@ dependencies {
     implementation "com.contrarywind:Android-PickerView:3.2.7"
 
     //SmartRefreshLayout
-    implementation  'com.scwang.smart:refresh-layout-kernel:2.0.1'
-    implementation  'com.scwang.smart:refresh-header-classics:2.0.1'//经典刷新头
-    implementation  'com.scwang.smart:refresh-footer-classics:2.0.1'
+    implementation 'com.scwang.smart:refresh-layout-kernel:2.0.1'
+    implementation 'com.scwang.smart:refresh-header-classics:2.0.1'//经典刷新头
+    implementation 'com.scwang.smart:refresh-footer-classics:2.0.1'
 
     implementation 'com.github.bumptech.glide:glide:4.11.0'
 
@@ -106,5 +106,5 @@ dependencies {
 
     implementation 'top.zibin:Luban:1.1.8'
 
-
+    implementation 'com.tencent:mmkv:1.1.0'
 }

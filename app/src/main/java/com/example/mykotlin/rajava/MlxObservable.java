@@ -1,6 +1,6 @@
 package com.example.mykotlin.rajava;
 
-public class MlxObservable<T> {
+public class MlxObservable{
     private MlxObservableOnSubscribe sourse;
 
 
@@ -15,5 +15,6 @@ public class MlxObservable<T> {
     //这里接收一个下游对象，
     public <T> void setObserver(MlxObserver<T> downStream) {
         sourse.setObserver(downStream);
+        downStream.onSubscribe();
     }
 }
