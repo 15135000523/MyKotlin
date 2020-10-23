@@ -89,8 +89,8 @@ public class LocationUtils {
         criteria.setBearingRequired(false);
         // 是否允许付费：是
         criteria.setCostAllowed(false);
-        //设置电量要求
-        criteria.setPowerRequirement(Criteria.ACCURACY_FINE);
+        // 电量要求：低
+        criteria.setPowerRequirement(Criteria.POWER_LOW);
         // 返回最合适的符合条件的provider，第2个参数为true说明 , 如果只有一个provider是有效的,则返回当前provider
         return myLocationManager.getBestProvider(criteria, true);
     }

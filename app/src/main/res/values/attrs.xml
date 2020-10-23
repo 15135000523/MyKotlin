@@ -21,5 +21,9 @@
     <declare-styleable name="SelectorView">
         <attr name="lineStartSelectorColor" format="color"/>
         <attr name="lineEndSelectorColor" format="color"/>
+        <attr name="selectorTextColor" format="color"/>
+        <attr name="lineDivisionColor" format="color"/>
+        <attr name="lineDivisionWidth" format="dimension"/>
+        <attr name="subsectionNum" format="integer"/>
     </declare-styleable>
 </resources>

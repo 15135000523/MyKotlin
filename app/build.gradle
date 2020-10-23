@@ -105,7 +105,7 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.3'
 
     implementation 'top.zibin:Luban:1.1.8'
-
+//mmkv
     implementation 'com.tencent:mmkv:1.1.0'
 
 }
