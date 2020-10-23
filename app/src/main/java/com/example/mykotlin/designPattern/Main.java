@@ -7,6 +7,7 @@ import com.example.mykotlin.designPattern.proxyPattern.ProxyHandler;
 import com.example.mykotlin.designPattern.proxyPattern.User;
 import com.example.mykotlin.designPattern.proxyPattern.UserProxy;
 import com.example.mykotlin.designPattern.singletonPattern.DateUtils;
+import com.tencent.mmkv.MMKV;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -17,9 +18,11 @@ import retrofit2.Retrofit;
 public class Main {
 
     public static void main(String[] args) {
-        proxyPattern();
-        System.out.println("----------------单例模式---------------");
-        single();
+//        proxyPattern();
+//        System.out.println("----------------单例模式---------------");
+//        single();
+
+        observer();
     }
 
     /**
@@ -62,17 +65,11 @@ public class Main {
         observable.addObserver(new Observer() {
             @Override
             public void notifaDatachange() {
-
+                System.out.println("我收到了");
             }
         });
+        observable.notifationChange();
 
-        java.util.Observable vable = new java.util.Observable();
-        vable.addObserver(new java.util.Observer() {
-            @Override
-            public void update(java.util.Observable o, Object arg) {
-                System.out.println("下班了");
-            }
-        });
-        vable.notifyObservers();
+        MMKV mmkv = MMKV.defaultMMKV();
     }
 }

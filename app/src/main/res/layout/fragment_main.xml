@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -16,22 +17,28 @@
             android:text="闫文浩"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-        <com.example.mykotlin.view.AnnularProgressView
-            android:id="@+id/main_progress"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/blue"
-            android:paddingLeft="3dp"
-            app:allProgress="100"
-            app:annularColor="@color/Yellow"
-            app:annularWidth="4dp"
-            app:finishProgress="90"
-            app:progressColor="@color/Orange"
-            app:progressTextSize="20sp"
-            app:synopsisText="巡检总数"
-            app:synopsisTextSize="12sp"
-            app:textColor="@color/white"
-            tools:ignore="MissingConstraints" />
-
+        <!--        <com.example.mykotlin.view.AnnularProgressView-->
+        <!--            android:id="@+id/main_progress"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="match_parent"-->
+        <!--            android:background="@color/blue"-->
+        <!--            android:paddingLeft="3dp"-->
+        <!--            app:allProgress="100"-->
+        <!--            app:annularColor="@color/Yellow"-->
+        <!--            app:annularWidth="4dp"-->
+        <!--            app:finishProgress="90"-->
+        <!--            app:progressColor="@color/Orange"-->
+        <!--            app:progressTextSize="20sp"-->
+        <!--            app:synopsisText="巡检总数"-->
+        <!--            app:synopsisTextSize="12sp"-->
+        <!--            app:textColor="@color/white"-->
+        <!--            tools:ignore="MissingConstraints" />-->
+        <com.example.mykotlin.view.SelectorView
+            android:id="@+id/selectorView"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            app:lineStartSelectorColor="@color/colorPrimary"
+            app:lineEndSelectorColor="@color/red"
+            />
     </LinearLayout>
 </layout>

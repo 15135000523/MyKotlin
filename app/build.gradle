@@ -107,4 +107,5 @@ dependencies {
     implementation 'top.zibin:Luban:1.1.8'
 
     implementation 'com.tencent:mmkv:1.1.0'
+
 }

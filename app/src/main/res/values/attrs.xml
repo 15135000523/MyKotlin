@@ -17,4 +17,9 @@
         <attr name="android:title"/>
         <attr name="android:adjustViewBounds"/>
     </declare-styleable>
+
+    <declare-styleable name="SelectorView">
+        <attr name="lineStartSelectorColor" format="color"/>
+        <attr name="lineEndSelectorColor" format="color"/>
+    </declare-styleable>
 </resources>

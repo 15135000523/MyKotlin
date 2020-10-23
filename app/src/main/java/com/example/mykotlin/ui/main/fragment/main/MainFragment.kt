@@ -33,6 +33,11 @@ class MainFragment : BaseFragment<MainViewModel, FragmentMainBinding>() {
                 pvTime.show(this.mainName)
             }
         }
+        mDataBinding.selectorView.setKilometreList(ArrayList<String>().apply {
+            this.add("1KM")
+            this.add("2KM")
+            this.add("4KM")
+        })
         activity?.getColor(R.color.Yellow)?.let { StatusUtil.setStatusBarColor(activity, it) }
     }
 
