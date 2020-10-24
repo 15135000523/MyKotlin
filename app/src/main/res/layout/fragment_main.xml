@@ -37,8 +37,6 @@
             android:id="@+id/selectorView"
             android:layout_width="200dp"
             android:layout_height="50dp"
-            app:lineStartSelectorColor="@color/colorPrimary"
-            app:lineEndSelectorColor="@color/red"
             />
     </LinearLayout>
 </layout>

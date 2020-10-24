@@ -3,7 +3,6 @@ package com.example.mykotlin.view;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -26,19 +25,25 @@ public class SelectorView extends View {
     private int lineEndSelectorColor;
     //分割线颜色
     private int lineDivisionColor;
-    //分割线颜色集合
-    private ArrayList<Integer> lineDivisionColorList;
-    //分割线宽度
-    private int lineDivisionWidth;
+    //色值集合
+    private ArrayList<Integer> colorSectionList;
+    //色值区间个数
+    private int colorNumberOfIntervals;
+    //起始色值和结束色值的色差
+    private int chromaticAberration;
+
     //字体颜色
     private int selectorTextColor;
 
+    //分割线宽度
+    private int lineDivisionWidth;
     //分段宽度
     private int subsectionWidth;
     //分段高度
     private int subsectionHeight;
     //分段数
     private int subsectionNum;
+
 
     //小球移动的X轴
     private float cx;
@@ -58,24 +63,25 @@ public class SelectorView extends View {
     public SelectorView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.SelectorView);
+        //初始化属性值
+        initXmlType(array);
+        //初始化中间色值
+        initlineMiddleSelectorColor();
+        initPaint();
+        getViewTreeObserver().addOnGlobalLayoutListener(() ->
+                initSubsectionWidthAndHeight()
+        );
+    }
+
+    private void initXmlType(TypedArray array) {
         lineStartSelectorColor = array.getColor(R.styleable.SelectorView_lineStartSelectorColor, 0xFF7BF6D2);
         lineEndSelectorColor = array.getColor(R.styleable.SelectorView_lineEndSelectorColor, 0xFF0DAB7D);
         lineDivisionColor = array.getColor(R.styleable.SelectorView_lineDivisionColor, 0xffffffff);
         selectorTextColor = array.getColor(R.styleable.SelectorView_selectorTextColor, 0xff000000);
         lineDivisionWidth = (int) array.getDimension(R.styleable.SelectorView_lineDivisionWidth, (float) (subsectionWidth * 0.06));
         subsectionNum = array.getInteger(R.styleable.SelectorView_subsectionNum, 3);
-        lineDivisionColorList = new ArrayList<>();
-
-        if (subsectionNum > 2) {
-            for (int i = 0; i < subsectionNum - 2; i++) {
-            }
-        } else {
-            throw new MyException("subsectionNum must be greater than 2");
-        }
-
-        lineMiddleSelectorColor = (lineStartSelectorColor + lineEndSelectorColor) / 2;
         array.recycle();
-        initPaint();
+
     }
 
     private void initPaint() {
@@ -83,18 +89,27 @@ public class SelectorView extends View {
         paint.setAntiAlias(true);
         paint.setStyle(Paint.Style.FILL_AND_STROKE);
         paint.setAlpha(255);
-
     }
 
-    @Override
-    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        super.onLayout(changed, left, top, right, bottom);
-        initSubsectionWidthAndHeight();
+    private void initlineMiddleSelectorColor() {
+        colorSectionList = new ArrayList<>();
+        chromaticAberration  =  lineEndSelectorColor-lineStartSelectorColor;
+        colorNumberOfIntervals = subsectionNum - 2;
+        for (int i = 0; i <subsectionNum; i++) {
+            if (chromaticAberration > 0) {
+                colorSectionList.add(lineStartSelectorColor-chromaticAberration/(subsectionNum-1)*i);
+            } else {
+                colorSectionList.add(lineStartSelectorColor+chromaticAberration/(subsectionNum-1)*i);
+            }
+        }
     }
 
+    /**
+     * 初始化分段宽高，分割宽
+     */
     private void initSubsectionWidthAndHeight() {
         subsectionHeight = getBottom() / 4;
-        subsectionWidth = getRight() / 3;
+        subsectionWidth = getWidth() / 3;
         lineDivisionWidth = (int) (subsectionWidth * 0.06);
         cx = subsectionWidth - lineDivisionWidth / 2;
     }
@@ -116,7 +131,7 @@ public class SelectorView extends View {
         paint.setTextSize(subsectionHeight / 2);
         if (kilometreList != null) {
             for (int i = 0; i < kilometreList.size(); i++) {
-                canvas.drawText(kilometreList.get(0), subsectionWidth / 2 + subsectionWidth * i, subsectionHeight * 2 - subsectionHeight / 2, paint);
+                canvas.drawText(kilometreList.get(i), subsectionWidth / 2 + subsectionWidth * i, subsectionHeight * 2 - subsectionHeight / 2, paint);
             }
         }
     }
