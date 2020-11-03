@@ -8,20 +8,21 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 
 import androidx.annotation.Nullable;
 
 import com.example.mykotlin.R;
+import com.example.mykotlin.utils.LinearGradientUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SelectorView extends View {
+public class SelectorView extends View implements ViewTreeObserver.OnGlobalLayoutListener {
 
     private Paint paint;
 
     private int lineStartSelectorColor;
-    private int lineMiddleSelectorColor;
     private int lineEndSelectorColor;
     //分割线颜色
     private int lineDivisionColor;
@@ -44,13 +45,14 @@ public class SelectorView extends View {
     //分段数
     private int subsectionNum;
 
-
     //小球移动的X轴
     private float cx;
     //数据集
     private List<String> kilometreList;
 
     private OnDataChangeListener listener;
+
+    private LinearGradientUtil linearGradientUtil;
 
     public SelectorView(Context context) {
         this(context, null);
@@ -66,11 +68,9 @@ public class SelectorView extends View {
         //初始化属性值
         initXmlType(array);
         //初始化中间色值
-        initlineMiddleSelectorColor();
+        initlineColorSectionList();
         initPaint();
-        getViewTreeObserver().addOnGlobalLayoutListener(() ->
-                initSubsectionWidthAndHeight()
-        );
+        getViewTreeObserver().addOnGlobalLayoutListener(this);
     }
 
     private void initXmlType(TypedArray array) {
@@ -91,25 +91,30 @@ public class SelectorView extends View {
         paint.setAlpha(255);
     }
 
-    private void initlineMiddleSelectorColor() {
+    private void initlineColorSectionList() {
+        linearGradientUtil = new LinearGradientUtil(lineStartSelectorColor, lineEndSelectorColor);
         colorSectionList = new ArrayList<>();
-        chromaticAberration  =  lineEndSelectorColor-lineStartSelectorColor;
+        chromaticAberration = lineEndSelectorColor - lineStartSelectorColor;
         colorNumberOfIntervals = subsectionNum - 2;
-        for (int i = 0; i <subsectionNum; i++) {
-            if (chromaticAberration > 0) {
-                colorSectionList.add(lineStartSelectorColor-chromaticAberration/(subsectionNum-1)*i);
+        for (int i = 0; i < subsectionNum; i++) {
+            if (i == 0) {
+                colorSectionList.add(lineStartSelectorColor);
+            } else if (i == subsectionNum - 1) {
+                colorSectionList.add(lineEndSelectorColor);
             } else {
-                colorSectionList.add(lineStartSelectorColor+chromaticAberration/(subsectionNum-1)*i);
+                colorSectionList.add(linearGradientUtil.getColor((float) (i / (colorNumberOfIntervals + 1.0))));
             }
         }
+        linearGradientUtil = null;
+
     }
 
     /**
      * 初始化分段宽高，分割宽
      */
     private void initSubsectionWidthAndHeight() {
-        subsectionHeight = getBottom() / 4;
-        subsectionWidth = getWidth() / 3;
+        subsectionHeight = getHeight() / 3;
+        subsectionWidth = getWidth() / subsectionNum;
         lineDivisionWidth = (int) (subsectionWidth * 0.06);
         cx = subsectionWidth - lineDivisionWidth / 2;
     }
@@ -138,24 +143,14 @@ public class SelectorView extends View {
 
     private void drawLine(Canvas canvas) {
         paint.setStrokeWidth(subsectionHeight);
-
-        paint.setColor(lineStartSelectorColor);
-        canvas.drawLine(0, 0, subsectionWidth - lineDivisionWidth, 0, paint);
-        paint.setColor(lineDivisionColor);
-        canvas.drawLine(subsectionWidth - lineDivisionWidth, 0, subsectionWidth, 0, paint);
-
-
-        paint.setColor(lineMiddleSelectorColor);
-        canvas.drawLine(subsectionWidth, 0, subsectionWidth * 2 - lineDivisionWidth, 0, paint);
-        paint.setColor(lineDivisionColor);
-        canvas.drawLine(subsectionWidth * 2 - lineDivisionWidth, 0, subsectionWidth * 2, 0, paint);
-
-
-        paint.setColor(lineEndSelectorColor);
-        canvas.drawLine(subsectionWidth * 2, 0, subsectionWidth * 3 - lineDivisionWidth, 0, paint);
-        paint.setColor(lineDivisionColor);
-        canvas.drawLine(subsectionWidth * 3 - lineDivisionWidth, 0, subsectionWidth * 3, 0, paint);
+        for (int i = 0; i < colorSectionList.size(); i++) {
+            paint.setColor(colorSectionList.get(i));
+            canvas.drawLine(subsectionWidth * i, 0, subsectionWidth * (i + 1) - lineDivisionWidth, 0, paint);
+            paint.setColor(lineDivisionColor);
+            canvas.drawLine(subsectionWidth * (i + 1) - lineDivisionWidth, 0, subsectionWidth * (i + 1), 0, paint);
+        }
     }
+
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -166,15 +161,16 @@ public class SelectorView extends View {
                 setCx(event.getX());
                 break;
             case MotionEvent.ACTION_UP:
-                if (event.getX() < subsectionWidth * 2 - subsectionWidth / 2) {
-                    setCx(subsectionWidth - lineDivisionWidth / 2);
-                    if (listener != null) listener.dataChangeListener(0);
-                } else if (event.getX() >= subsectionWidth * 2 - subsectionWidth / 2 && event.getX() < subsectionWidth * 3 - subsectionWidth / 2) {
-                    setCx(subsectionWidth * 2 - lineDivisionWidth / 2);
-                    if (listener != null) listener.dataChangeListener(1);
-                } else if (event.getX() >= subsectionWidth * 3 - subsectionWidth / 2) {
-                    setCx(subsectionWidth * 3 - lineDivisionWidth / 2);
-                    if (listener != null) listener.dataChangeListener(2);
+                for (int i = 0; i < colorSectionList.size(); i++) {
+                    if (subsectionWidth * i < event.getX() && event.getX() <= subsectionWidth * (i + 1)) {
+                        if(i<colorSectionList.size()-1){
+                            setCx(subsectionWidth * (i + 1) - lineDivisionWidth / 2);
+                        }else {
+                            setCx(subsectionWidth * (i + 1) - lineDivisionWidth);
+                        }
+                        if (listener != null) listener.dataChangeListener(i);
+                        break;
+                    }
                 }
                 break;
         }
@@ -190,13 +186,23 @@ public class SelectorView extends View {
         this.listener = listener;
     }
 
-
     public void setKilometreList(List<String> kilometreList) {
         this.kilometreList = kilometreList;
         invalidate();
     }
 
+    @Override
+    public void onGlobalLayout() {
+        initSubsectionWidthAndHeight();
+        getViewTreeObserver().removeOnGlobalLayoutListener(this);
+    }
+
     public interface OnDataChangeListener {
+        /**
+         * 返回选中节点的position
+         *
+         * @param position
+         */
         void dataChangeListener(int position);
     }
 }

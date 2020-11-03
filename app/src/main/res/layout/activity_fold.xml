@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -11,27 +12,43 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/fold_img"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:scaleType="fitXY"
-                android:src="@mipmap/timg"
-                app:layout_scrollFlags="scroll|enterAlwaysCollapsed|exitUntilCollapsed" />
+                android:layout_height="150dp"
+                app:layout_scrollFlags="scroll|enterAlwaysCollapsed|exitUntilCollapsed">
+
+                <ImageView
+                    android:id="@+id/fold_img"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/timg"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
+                app:navigationIcon="@mipmap/ic_back"
+                app:title="My Kotlin"
+                app:titleTextColor="@color/red"
+                app:subtitle="子标题"
+                app:subtitleTextColor="@color/black"
+                app:logo="@mipmap/ic_launcher"
                 >
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/colorPrimary"
-                    android:gravity="center"
-                    android:text="标题"
-                    android:textColor="@color/white"
-                    android:textSize="14sp" />
+                <!--                <TextView-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="match_parent"-->
+                <!--                    android:background="@color/red"-->
+                <!--                    android:gravity="center"-->
+                <!--                    android:text="标题"-->
+                <!--                    android:textColor="@color/white"-->
+                <!--                    android:textSize="14sp" />-->
+
             </androidx.appcompat.widget.Toolbar>
 
         </com.google.android.material.appbar.AppBarLayout>
@@ -40,8 +57,8 @@
             android:id="@+id/nested"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            >
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -59,9 +76,9 @@
                     android:id="@+id/context_img2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:scaleType="centerInside"
                     android:src="@mipmap/snow"
-                    android:layout_marginTop="10dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/context_img1" />
             </androidx.constraintlayout.widget.ConstraintLayout>

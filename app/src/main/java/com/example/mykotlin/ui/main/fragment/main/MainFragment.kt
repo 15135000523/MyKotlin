@@ -2,7 +2,6 @@ package com.example.mykotlin.ui.main.fragment.main
 
 import android.os.Build
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.RequiresApi
@@ -13,31 +12,41 @@ import com.example.mykotlin.base.BaseFragment
 import com.example.mykotlin.databinding.FragmentMainBinding
 import com.example.mykotlin.utils.DateUtils
 import com.example.mykotlin.utils.StatusUtil
+import com.example.mykotlin.view.SelectorView
 
 
-class MainFragment : BaseFragment<MainViewModel, FragmentMainBinding>() {
-    lateinit var pvTime: TimePickerView
+class MainFragment : BaseFragment<MainViewModel, FragmentMainBinding>(),
+    SelectorView.OnDataChangeListener {
+    private lateinit var pvTime: TimePickerView
 
     override fun initViewModel(): Class<MainViewModel> = MainViewModel::class.java
     override fun loadLayout(inflater: LayoutInflater, container: ViewGroup?): ViewDataBinding {
-        return FragmentMainBinding.inflate(inflater,container,false)
+        return FragmentMainBinding.inflate(inflater, container, false)
     }
 
     override fun initObserver() {
     }
+
     @RequiresApi(Build.VERSION_CODES.M)
     override fun initView() {
-        createTimePicker();
+        createTimePicker()
         mDataBinding.run {
             mainName.setOnClickListener {
                 pvTime.show(this.mainName)
+                mDataBinding.refresh.isRefreshing = false
             }
         }
         mDataBinding.selectorView.setKilometreList(ArrayList<String>().apply {
             this.add("1KM")
             this.add("2KM")
             this.add("4KM")
+            this.add("10KM")
+            this.add("20KM")
+            this.add("30KM")
+            this.add("40KM")
         })
+        mDataBinding.selectorView.setListener(this)
+        mDataBinding.refresh.isEnabled = false
         activity?.getColor(R.color.Yellow)?.let { StatusUtil.setStatusBarColor(activity, it) }
     }
 
@@ -59,7 +68,9 @@ class MainFragment : BaseFragment<MainViewModel, FragmentMainBinding>() {
             .build()
     }
 
-
+    override fun dataChangeListener(position: Int) {
+        mDataBinding.refresh.isRefreshing = true
+    }
 
 
 }

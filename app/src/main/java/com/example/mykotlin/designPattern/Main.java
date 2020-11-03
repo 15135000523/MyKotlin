@@ -1,27 +1,24 @@
 package com.example.mykotlin.designPattern;
 
 import com.example.mykotlin.designPattern.observer.Observable;
-import com.example.mykotlin.designPattern.observer.Observer;
 import com.example.mykotlin.designPattern.proxyPattern.IProxy;
 import com.example.mykotlin.designPattern.proxyPattern.ProxyHandler;
 import com.example.mykotlin.designPattern.proxyPattern.User;
 import com.example.mykotlin.designPattern.proxyPattern.UserProxy;
 import com.example.mykotlin.designPattern.singletonPattern.DateUtils;
-import com.tencent.mmkv.MMKV;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
-import retrofit2.Retrofit;
-
 public class Main {
 
     public static void main(String[] args) {
-//        proxyPattern();
-//        System.out.println("----------------单例模式---------------");
-//        single();
-
+        System.out.println("----------------代理模式---------------");
+        proxyPattern();
+        System.out.println("----------------单例模式---------------");
+        single();
+        System.out.println("----------------观察者模式---------------");
         observer();
     }
 
@@ -58,18 +55,24 @@ public class Main {
         System.out.println("懒汉：" + DateUtils.getInstance());
         System.out.println("饿汉：" + DateUtils.getInstance1());
         System.out.println("双重校验锁：" + DateUtils.getInstance2());
+        System.out.println(DateUtils.getInstance() == DateUtils.getInstance2());
     }
 
+    /**
+     * 观察者模式
+     */
     private static void observer() {
         Observable observable = new Observable();
-        observable.addObserver(new Observer() {
-            @Override
-            public void notifaDatachange() {
-                System.out.println("我收到了");
-            }
+        observable.addObserver(() -> {
+            System.out.println("我收到了观察的信息");
+        });
+        observable.addObserver(() -> {
+            System.out.println("这个消息很震惊");
+        });
+        observable.addObserver(() -> {
+            System.out.println("你说什么，总理没了addObserverdate public static void observer(){" +
+                    "System.out.println}");
         });
         observable.notifationChange();
-
-        MMKV mmkv = MMKV.defaultMMKV();
     }
 }
