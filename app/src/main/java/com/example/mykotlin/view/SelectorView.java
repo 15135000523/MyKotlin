@@ -205,4 +205,52 @@ public class SelectorView extends View implements ViewTreeObserver.OnGlobalLayou
          */
         void dataChangeListener(int position);
     }
+
+    public int getLineStartSelectorColor() {
+        return lineStartSelectorColor;
+    }
+
+    public void setLineStartSelectorColor(int lineStartSelectorColor) {
+        this.lineStartSelectorColor = lineStartSelectorColor;
+    }
+
+    public int getLineEndSelectorColor() {
+        return lineEndSelectorColor;
+    }
+
+    public void setLineEndSelectorColor(int lineEndSelectorColor) {
+        this.lineEndSelectorColor = lineEndSelectorColor;
+    }
+
+    public int getLineDivisionColor() {
+        return lineDivisionColor;
+    }
+
+    public void setLineDivisionColor(int lineDivisionColor) {
+        this.lineDivisionColor = lineDivisionColor;
+    }
+
+    public int getSelectorTextColor() {
+        return selectorTextColor;
+    }
+
+    public void setSelectorTextColor(int selectorTextColor) {
+        this.selectorTextColor = selectorTextColor;
+    }
+
+    public int getLineDivisionWidth() {
+        return lineDivisionWidth;
+    }
+
+    public void setLineDivisionWidth(int lineDivisionWidth) {
+        this.lineDivisionWidth = lineDivisionWidth;
+    }
+
+    public int getSubsectionNum() {
+        return subsectionNum;
+    }
+
+    public void setSubsectionNum(int subsectionNum) {
+        this.subsectionNum = subsectionNum;
+    }
 }

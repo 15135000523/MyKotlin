@@ -10,16 +10,24 @@ import com.example.mykotlin.designPattern.singletonPattern.DateUtils;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.ArrayList;
+import java.util.Date;
 
 public class Main {
 
     public static void main(String[] args) {
-        System.out.println("----------------代理模式---------------");
-        proxyPattern();
-        System.out.println("----------------单例模式---------------");
-        single();
-        System.out.println("----------------观察者模式---------------");
-        observer();
+//        System.out.println("----------------代理模式---------------");
+//        proxyPattern();
+//        System.out.println("----------------单例模式---------------");
+//        single();
+//        System.out.println("----------------观察者模式---------------");
+//        observer();
+
+        getList();
+//        System.out.println("start time :"+new Date().getTime());
+//        System.out.println(selectInt(178888,0,list.size()-1));
+//        System.out.println(selectIntFor(178888));
+//        System.out.println("start time :"+new Date().getTime());
     }
 
     /**
@@ -74,5 +82,34 @@ public class Main {
                     "System.out.println}");
         });
         observable.notifationChange();
+    }
+
+    private static ArrayList<Integer> list;
+
+    private static void getList() {
+        list = new ArrayList<>();
+        for (int i = 1; i < 90001; i++) {
+            list.add(i * 2);
+        }
+    }
+
+    private static int selectIntFor(int value){
+        for (int i=0;i<list.size();i++) {
+            if (list.get(i)==value)
+            return i;
+        }
+        return -1;
+    }
+
+    private static int selectInt(int value, int low, int high) {
+        if (value < list.get(low) || value > list.get(high) || low > high)
+            return -1;
+        int middle = (low + high) / 2;
+        if (value > list.get(middle)) {
+            return selectInt(value, middle, high);
+        } else if (value < list.get(middle)) {
+            return selectInt(value, low, middle);
+        } else
+            return middle;
     }
 }
