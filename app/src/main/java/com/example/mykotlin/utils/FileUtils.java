@@ -35,7 +35,7 @@ public final class FileUtils {
 
     public static final String COMPRESS_PATH = getExternalStoragePath()+ "/cache/images";
 
-    public static final String PROJECT_PATH = getExternalStoragePath() + "/JCCJ/";
+    public static final String PROJECT_PATH = getExternalStoragePath() + "/mykotlin/";
 
     public static final String SAVE_COUNT = "savecount";
 

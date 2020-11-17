@@ -23,16 +23,19 @@ class MainActivity : AppCompatActivity() {
         requestPermissions(
             arrayOf(
                 android.Manifest.permission.ACCESS_FINE_LOCATION,
-                android.Manifest.permission.ACCESS_COARSE_LOCATION
-            ),0);
+                android.Manifest.permission.ACCESS_COARSE_LOCATION,
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                android.Manifest.permission.READ_EXTERNAL_STORAGE
+            ), 0
+        );
         val navController = findNavController(R.id.fragmet)
         NavigationUI.setupWithNavController(main_bottom, navController)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode==0){
-            Log.e("------","这是权限")
+        if (requestCode == 0) {
+            Log.e("------", "这是权限")
         }
     }
 

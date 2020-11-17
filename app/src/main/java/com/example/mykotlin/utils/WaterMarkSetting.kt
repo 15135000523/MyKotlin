@@ -13,13 +13,35 @@ import android.util.DisplayMetrics
 import android.util.Log
 import android.view.WindowManager
 import com.example.mykotlin.utils.ScreenUtils.*
+import top.zibin.luban.Luban
+import top.zibin.luban.OnCompressListener
+import java.io.BufferedOutputStream
+import java.io.File
+import java.io.FileOutputStream
+import java.io.OutputStream
 
 
 class WaterMarkSetting {
 
     companion object {
+
+        fun saveAndCompress(
+            bitmap: Bitmap,
+            waterMark: String,
+            context: Context,
+            savePath: String,
+            compressPath: String,
+            success: (path: String) -> Unit
+        ) {
+            var isOk = save(createWatermarkBitMap(bitmap, waterMark, context), savePath)
+            if (isOk) {
+                compress(savePath, compressPath, context, success)
+            }
+        }
+
         fun createWatermarkBitMap(bitmap: Bitmap, waterMark: String, context: Context): Bitmap {
-            val canvas = Canvas(bitmap)
+            var result = bitmap.copy(bitmap.config, true)
+            val canvas = Canvas(result)
             var paint = Paint()
             paint.isAntiAlias = true
 
@@ -49,48 +71,48 @@ class WaterMarkSetting {
             canvas.translate(textOffsetX, textOffsetY)
             layout.draw(canvas)
 
-            return bitmap
+            return result
         }
 
-        fun createWatermarkBitMaps(bitmap: Bitmap, waterMark: String, context: Context): Bitmap {
-            val newMap = Bitmap.createBitmap(
-                ScreenUtils.getScreenWidth(context),
-                ScreenUtils.getScreenHeight(context) - ScreenUtils.getStatusBarHeight(context),
-                Bitmap.Config.ARGB_8888
-            )
-            var canvas = Canvas(newMap)
-            var paint = Paint()
-            paint.isAntiAlias = true
-            //在画布 0，0坐标上开始绘制原始图片
-            canvas.drawBitmap(bitmap, 0f, 0f, paint)
+        fun save(bitmap: Bitmap, savePath: String): Boolean {
+            if (bitmap == null || bitmap.width == 0 || bitmap.height == 0)
+                return false
+            FileUtils.createOrExistsFile(savePath)
+            var outPut = BufferedOutputStream(FileOutputStream(File(savePath)))
+            return bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outPut)
+        }
 
-            //画水印文本
-            var textPaint = TextPaint()
-            textPaint.setARGB(0xFF, 0xff, 0, 0)
-            textPaint.textSize = ViewUtils.dp2px(16f)
-            textPaint.textAlign = Paint.Align.LEFT
+        /**
+         * 图片压缩
+         */
+        fun compress(
+            savePath: String,
+            compressPath: String,
+            context: Context,
+            success: (path: String) -> Unit
+        ) {
+            FileUtils.createOrExistsDir(compressPath)
+            Luban.with(context)
+                .load(File(savePath))
+                .ignoreBy(100)
+                .setTargetDir(compressPath)
+                .setFocusAlpha(false)
+                .setCompressListener(object : OnCompressListener {
+                    override fun onSuccess(file: File?) {
+                        if (FileUtils.isFile(savePath)) {
+                            FileUtils.delete(savePath)
+                        }
+                        file?.path?.let { success(it) }
+                    }
 
-            var layout = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                StaticLayout.Builder.obtain(
-                    waterMark,
-                    0,
-                    waterMark.length,
-                    textPaint,
-                    ViewUtils.dp2px(600f).toInt()
-                ).build()
-            } else {
-                StaticLayout(
-                    waterMark, textPaint, ViewUtils.dp2px(600f).toInt(),
-                    Layout.Alignment.ALIGN_NORMAL, 1.0F, 0.0F, true
-                )
-            }
+                    override fun onError(e: Throwable?) {
+                        success(savePath)
+                    }
 
-            canvas.translate(50f, 50f + ScreenUtils.getStatusBarHeight(context))
-            layout.draw(canvas)
-            canvas.save()
-            canvas.restore()
+                    override fun onStart() {
+                    }
 
-            return newMap;
+                }).launch()
         }
 
 
