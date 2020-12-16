@@ -24,6 +24,7 @@ public class DrawView extends View implements ViewTreeObserver.OnGlobalLayoutLis
     private float downX, downY;
     private long downTime, upTime;
     private float upX, upY;
+    //计算的速度
     private float acceleration;
     //递减因子
     private int decline = 100;
@@ -55,8 +56,8 @@ public class DrawView extends View implements ViewTreeObserver.OnGlobalLayoutLis
 
         canvas.drawCircle(25, 25, 25, p);
         canvas.drawCircle(width-25, 25, 25, p);
-        canvas.drawCircle(25, height/2, 25, p);
-        canvas.drawCircle(width-25, height/2, 25, p);
+        canvas.drawCircle(25, height/2.0f, 25, p);
+        canvas.drawCircle(width-25, height/2.0f, 25, p);
         canvas.drawCircle(25, height-25, 25, p);
         canvas.drawCircle(width-25, height-25, 25, p);
     }
@@ -100,64 +101,62 @@ public class DrawView extends View implements ViewTreeObserver.OnGlobalLayoutLis
         acceleration = (float) Math.sqrt(Math.pow(Math.abs(upX - downX), 2) + Math.pow(Math.abs(upY - downY), 2)) / timeDifference;
         Log.e("drawview", "acceleration  :" + acceleration);
         initAnimator();
+
     }
 
     private void initAnimator() {
         animator = ValueAnimator.ofFloat(acceleration, 1);
         animator.setDuration((long) ((acceleration / decline / 16) * 1000));
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                float value = (float) animation.getAnimatedValue();
-                if (Math.abs(downX - upX) > 100 && Math.abs(downY - upY) > 100) {
-                    if (currentX - lastTimeX > 0) {
-                        lastTimeX = currentX;
-                        currentX = currentX + value / decline;
-                    } else {
-                        lastTimeX = currentX;
-                        currentX = currentX - value / decline;
-                    }
-                    if (currentY - lastTimeY > 0) {
-                        lastTimeY = currentY;
-                        currentY = currentY + value / decline;
-                    } else {
-                        lastTimeY = currentY;
-                        currentY = currentY - value / decline;
-                    }
-                } else if (Math.abs(downX - upX) > 100) {
-                    if (currentX - lastTimeX > 0) {
-                        lastTimeX = currentX;
-                        currentX = currentX + value / decline;
-                    } else {
-                        lastTimeX = currentX;
-                        currentX = currentX - value / decline;
-                    }
-
-                } else if (Math.abs(downY - upY) > 100) {
-                    if (currentY - lastTimeY > 0) {
-                        lastTimeY = currentY;
-                        currentY = currentY + value / decline;
-                    } else {
-                        lastTimeY = currentY;
-                        currentY = currentY - value / decline;
-                    }
+        animator.addUpdateListener(animation -> {
+            float value = (float) animation.getAnimatedValue();
+            if (Math.abs(downX - upX) > 100 && Math.abs(downY - upY) > 100) {
+                if (currentX - lastTimeX > 0) {
+                    lastTimeX = currentX;
+                    currentX = currentX + value / decline;
+                } else {
+                    lastTimeX = currentX;
+                    currentX = currentX - value / decline;
+                }
+                if (currentY - lastTimeY > 0) {
+                    lastTimeY = currentY;
+                    currentY = currentY + value / decline;
+                } else {
+                    lastTimeY = currentY;
+                    currentY = currentY - value / decline;
+                }
+            } else if (Math.abs(downX - upX) > 100) {
+                if (currentX - lastTimeX > 0) {
+                    lastTimeX = currentX;
+                    currentX = currentX + value / decline;
+                } else {
+                    lastTimeX = currentX;
+                    currentX = currentX - value / decline;
                 }
 
-                if (currentX >= width) {
-                    currentX = width - Math.abs(width - currentX);
+            } else if (Math.abs(downY - upY) > 100) {
+                if (currentY - lastTimeY > 0) {
+                    lastTimeY = currentY;
+                    currentY = currentY + value / decline;
+                } else {
+                    lastTimeY = currentY;
+                    currentY = currentY - value / decline;
                 }
-                if (currentY >= height) {
-                    currentY = height - Math.abs(height - currentY);
-                }
-                if (currentX <= 15) {
-                    currentX = Math.abs(currentX);
-                }
-                if (currentY <= 15) {
-                    currentY = Math.abs(currentY);
-                }
-
-                invalidate();
             }
+
+            if (currentX >= width) {
+                currentX = width - Math.abs(width - currentX);
+            }
+            if (currentY >= height) {
+                currentY = height - Math.abs(height - currentY);
+            }
+            if (currentX <= 15) {
+                currentX = Math.abs(currentX);
+            }
+            if (currentY <= 15) {
+                currentY = Math.abs(currentY);
+            }
+
+            invalidate();
         });
         animator.start();
     }

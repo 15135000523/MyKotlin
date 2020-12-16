@@ -1,31 +1,38 @@
 package com.example.mykotlin.ui.main.fragment.main
 
+import android.content.Context
+import android.graphics.Color
 import android.os.Build
-import android.view.LayoutInflater
-import android.view.ViewGroup
+import android.os.Handler
+import android.util.Log
+import android.view.*
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.databinding.ViewDataBinding
 import com.bigkoo.pickerview.TimePickerView
 import com.example.mykotlin.R
 import com.example.mykotlin.base.BaseFragment
+import com.example.mykotlin.bean.ReBean
 import com.example.mykotlin.databinding.FragmentMainBinding
+import com.example.mykotlin.login.UserBean
 import com.example.mykotlin.utils.DateUtils
 import com.example.mykotlin.utils.StatusUtil
 import com.example.mykotlin.view.SelectorView
 
 
 class MainFragment : BaseFragment<MainViewModel, FragmentMainBinding>(),
-    SelectorView.OnDataChangeListener {
+    SelectorView.OnDataChangeListener, View.OnTouchListener {
     private lateinit var pvTime: TimePickerView
+    private lateinit var windowManager: WindowManager
+    private lateinit var layoutParams: WindowManager.LayoutParams
+    private lateinit var textView: TextView
 
     override fun initViewModel(): Class<MainViewModel> = MainViewModel::class.java
     override fun loadLayout(inflater: LayoutInflater, container: ViewGroup?): ViewDataBinding {
         return FragmentMainBinding.inflate(inflater, container, false)
     }
 
-    override fun initObserver() {
-    }
+    override fun initObserver() {}
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun initView() {
@@ -48,6 +55,20 @@ class MainFragment : BaseFragment<MainViewModel, FragmentMainBinding>(),
         mDataBinding.selectorView.setListener(this)
         mDataBinding.refresh.isEnabled = false
         activity?.getColor(R.color.Yellow)?.let { StatusUtil.setStatusBarColor(activity, it) }
+
+        deskText()
+        texteQuals()
+    }
+
+    private fun texteQuals(){
+        var a = String(StringBuffer("abc"))
+        var b = String(StringBuffer("abc"))
+        Log.e("equals","a==b:"+(a==b))
+        Log.e("equals","a===b:"+(a===b))
+        var user = UserBean("闫文浩","10","男")
+        var user1 = UserBean("闫文浩","10","男")
+        Log.e("equals","user==user1:"+(user==user1))
+        Log.e("equals","user===user1:"+(user===user1))
     }
 
     /**
@@ -72,5 +93,53 @@ class MainFragment : BaseFragment<MainViewModel, FragmentMainBinding>(),
         mDataBinding.refresh.isRefreshing = true
     }
 
+    /**
+     * 桌面显示文本
+     */
+    private fun deskText() {
+        windowManager = activity?.getApplicationContext()
+            ?.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        //设置TextView的属性
+        layoutParams = WindowManager.LayoutParams()
+        layoutParams.width = WindowManager.LayoutParams.WRAP_CONTENT
+        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT
+        //这里是关键，使控件始终在最上方
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            layoutParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
+        } else {
+            layoutParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT
+        }
+        layoutParams.flags =
+            WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL or WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+        layoutParams.gravity = Gravity.LEFT or Gravity.TOP
+
+        textView = TextView(activity)
+        textView.setText("周杰伦——青花瓷")
+        textView.alpha = 1.0f
+        textView.setBackgroundResource(R.color.whitef)
+        textView.setTextColor(Color.BLACK)
+        textView.setOnTouchListener(this)
+
+        windowManager.addView(textView, layoutParams)
+    }
+
+    override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+        when (event!!.action) {
+            MotionEvent.ACTION_UP -> {
+                //getRawX/Y 是获取相对于Device的坐标位置 注意区别getX/Y[相对于View]
+                layoutParams.x = event!!.rawX.toInt()
+                layoutParams.y = event!!.rawY.toInt()
+                //更新"桌面歌词"的位置
+                windowManager.updateViewLayout(textView, layoutParams)
+            }
+            MotionEvent.ACTION_MOVE -> {
+                layoutParams.x = event!!.rawX.toInt()
+                layoutParams.y = event!!.rawY.toInt()
+                windowManager.updateViewLayout(textView, layoutParams)
+            }
+        }
+        return false
+
+    }
 
 }

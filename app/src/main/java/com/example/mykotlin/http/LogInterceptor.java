@@ -70,14 +70,17 @@ public class LogInterceptor implements Interceptor {
             }
             responseStr = responseStr + headers + "\n";
             try {
-                content = response.body().string();
-                content = toPrettyFormat(content);
+                content = toPrettyFormat(response.body().string());
                 responseStr = responseStr + "body:" + content + "\n";
             } catch (IOException e) {
                 e.printStackTrace();
             }
         } else {
-
+            try {
+                content = response.body().string();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         Log.e("yan httpResponse", responseStr);

@@ -7,8 +7,28 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.youku.main.YoukuMainActivity">
-
-
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:tabTextColor="@color/colorPrimary"
+            app:tabSelectedTextColor="@color/red"
+            app:tabIndicatorFullWidth="false"
+            app:tabIndicatorColor="@color/blue"
+            app:tabIndicatorHeight="5dp"
+            app:tabIndicatorGravity="bottom"
+            app:tabMode = "scrollable"
+            />
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

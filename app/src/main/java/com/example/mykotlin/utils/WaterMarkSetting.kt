@@ -1,5 +1,6 @@
 package com.example.mykotlin.utils
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -9,16 +10,13 @@ import android.os.Build
 import android.text.Layout
 import android.text.StaticLayout
 import android.text.TextPaint
-import android.util.DisplayMetrics
 import android.util.Log
-import android.view.WindowManager
-import com.example.mykotlin.utils.ScreenUtils.*
+import com.example.mykotlin.R
+import com.example.mykotlin.utils.ScreenUtils.getScreenWidth
 import top.zibin.luban.Luban
 import top.zibin.luban.OnCompressListener
-import java.io.BufferedOutputStream
-import java.io.File
-import java.io.FileOutputStream
-import java.io.OutputStream
+import java.io.*
+import java.util.*
 
 
 class WaterMarkSetting {
@@ -70,7 +68,7 @@ class WaterMarkSetting {
 
             canvas.translate(textOffsetX, textOffsetY)
             layout.draw(canvas)
-
+            bitmap.recycle()
             return result
         }
 
@@ -130,6 +128,46 @@ class WaterMarkSetting {
             return str
         }
     }
+}
 
+fun compressImg(bitmap: Bitmap, success: (bitmap: Bitmap) -> Unit) {
+    Log.e("BitmapActivity", Date().time.toString())
+    var quality = 100
+    var outPut = ByteArrayOutputStream()
+    Thread {
+        bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outPut)
+        while (outPut.toByteArray().size / 1024 > 100) {
+            outPut.reset()
+            if (quality > 10) quality -= 10
+            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outPut)
+            Log.e("BitmapActivity", Date().time.toString())
+        }
+        bitmap.recycle()
+        outPut.close()
+        success(BitmapFactory.decodeStream(ByteArrayInputStream(outPut.toByteArray())))
+    }.start()
+}
 
+fun Activity.cropImage(imgRes: Int, reqWidth: Int, reqHeight: Int): Bitmap {
+    var option = BitmapFactory.Options()
+    option.inJustDecodeBounds = true//不加载到内存
+    BitmapFactory.decodeResource(resources, imgRes, option)
+    option.inSampleSize = calculateInSampleSize(option, reqWidth, reqHeight)
+    option.inJustDecodeBounds = false
+    return BitmapFactory.decodeResource(resources, imgRes, option)
+}
+
+/**
+ * 计算缩放比
+ */
+fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeight: Int): Int {
+    val height = options.outHeight
+    val width = options.outWidth
+    var inSampleSize = 1
+    if (height > reqHeight || width > reqWidth) {
+        while (height / inSampleSize > reqHeight && width / inSampleSize > reqWidth) {
+            inSampleSize *= 2
+        }
+    }
+    return inSampleSize
 }

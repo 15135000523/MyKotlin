@@ -4,11 +4,9 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.animation.LinearInterpolator;
@@ -29,6 +27,7 @@ public class MyClock extends View implements ViewTreeObserver.OnGlobalLayoutList
     private float scaleSize = 30;
     private float scaleLongSize = 40;
     private int textSize = 24;
+    //偏移度
     private float minuteDegrees, hourDegrees, secondDegrees;
     private int currentSecond;
     private ValueAnimator animator;
@@ -45,6 +44,7 @@ public class MyClock extends View implements ViewTreeObserver.OnGlobalLayoutList
         super(context, attrs, defStyleAttr);
         initPaint();
         calculateDegrees();
+        initAnimator();
         getViewTreeObserver().addOnGlobalLayoutListener(this);
     }
 
@@ -55,13 +55,35 @@ public class MyClock extends View implements ViewTreeObserver.OnGlobalLayoutList
         mPaint.setAlpha(255);
     }
 
+    private void calculateDegrees() {
+        minuteDegrees = 0;
+        hourDegrees = 0;
+
+        int currentHour = Calendar.getInstance().get(Calendar.HOUR);
+        int currentMinute = Calendar.getInstance().get(Calendar.MINUTE);
+        minuteDegrees = currentMinute * 6;
+        //计算时针旋转的角度（当前小时数*每小时旋转的角度+当前分针/总分针比例*每小时旋转的角度）
+        hourDegrees = currentHour * 30 + currentMinute / 2;
+        //获取当前秒数
+        currentSecond = Calendar.getInstance().get(Calendar.SECOND);
+        //计算秒针旋转的角度（当前秒数/刻度数60°/周期数360°）
+        secondDegrees = currentSecond * 6;
+
+    }
+
     private void initAnimator() {
         animator = ValueAnimator.ofFloat(secondDegrees, 360.0f);
-        animator.setDuration(3000);
+        animator.setDuration((long) ((360.0f - secondDegrees) / 6 * 1000));
+        animator.setInterpolator(new LinearInterpolator());
         animator.addUpdateListener(animation -> {
             secondDegrees = (float) animation.getAnimatedValue();
-            Log.e("MyClock", "--------" + secondDegrees);
             invalidate();
+            if (secondDegrees == 360.0f) {
+                secondDegrees = 0.0f;
+                minuteDegrees += 6;
+                hourDegrees = Calendar.getInstance().get(Calendar.HOUR) * 30 + Calendar.getInstance().get(Calendar.MINUTE) / 2;
+                initAnimator();
+            }
         });
         animator.start();
     }
@@ -80,7 +102,6 @@ public class MyClock extends View implements ViewTreeObserver.OnGlobalLayoutList
         drawPointer(canvas, minuteDegrees, width / 2, scaleLongSize, width / 2, height / 2, 4, mPaint);
         //秒针
         drawPointer(canvas, secondDegrees, width / 2, scaleSize / 2, width / 2, height / 2, 2, mPaint);
-        initAnimator();
     }
 
     //绘制刻度尺
@@ -127,21 +148,6 @@ public class MyClock extends View implements ViewTreeObserver.OnGlobalLayoutList
         canvas.restore();
     }
 
-    private void calculateDegrees() {
-        minuteDegrees = 0;
-        hourDegrees = 0;
-
-        int currentHour = Calendar.getInstance().get(Calendar.HOUR);
-        int currentMinute = Calendar.getInstance().get(Calendar.MINUTE);
-        minuteDegrees = currentMinute * 6;
-        //计算时针旋转的角度（当前小时数*每小时旋转的角度+当前分针/总分针比例*每小时旋转的角度）
-        hourDegrees = currentHour * 30 + currentMinute / 2;
-        //获取当前秒数
-        currentSecond = Calendar.getInstance().get(Calendar.SECOND);
-        //计算秒针旋转的角度（当前秒数/刻度数60°/周期数360°）
-        secondDegrees = currentSecond * 6;
-
-    }
 
     public boolean isShowText() {
         return isShowText;
@@ -158,4 +164,5 @@ public class MyClock extends View implements ViewTreeObserver.OnGlobalLayoutList
         radius = width > height ? height / 2 : width / 2;
         getViewTreeObserver().removeOnGlobalLayoutListener(this);
     }
+
 }

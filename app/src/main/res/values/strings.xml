@@ -36,4 +36,5 @@
     <string name="TextAnnotationActivity">findviewbyid注解</string>
     <string name="LoginActivity">room</string>
     <string name="MainActivity">主页</string>
+    <string name="BitmapActivity">图片</string>
 </resources>

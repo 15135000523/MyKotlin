@@ -4,12 +4,16 @@ import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
+import android.os.Build
 import android.util.AttributeSet
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import com.example.mykotlin.R
 
+@RequiresApi(Build.VERSION_CODES.KITKAT)
 class MyView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private lateinit var paint: Paint
 
@@ -48,7 +52,9 @@ class MyView(context: Context, attrs: AttributeSet) : View(context, attrs) {
                     startPoint.writeFectf.top + movex
                 )
             }else if(movey>=90){
-                animator.end()
+                if(animator.isRunning){
+                    animator.pause()
+                }
                 animator.removeAllUpdateListeners()
             }
             index++
@@ -122,6 +128,20 @@ class MyView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         )
         paint.alpha = 255
         canvas?.drawArc(RectF(110f, 510f, 410f, 810f), 0f, 360f, true, paint)
+    }
+
+    /**
+     * 视图的可见状态改变
+     */
+    override fun onWindowVisibilityChanged(visibility: Int) {
+        super.onWindowVisibilityChanged(visibility)
+        if(visibility==View.INVISIBLE ||visibility==View.GONE){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                animator.pause()
+            }
+        }else{
+            animator.start()
+        }
     }
 
     /**

@@ -23,11 +23,18 @@ public class Main {
 //        System.out.println("----------------观察者模式---------------");
 //        observer();
 
-        getList();
+//        getList();
 //        System.out.println("start time :"+new Date().getTime());
 //        System.out.println(selectInt(178888,0,list.size()-1));
 //        System.out.println(selectIntFor(178888));
 //        System.out.println("start time :"+new Date().getTime());
+
+        String a = new String("123");
+        String b = new String("123");
+        String c = b;
+        c.hashCode();
+
+        System.out.println("a==b==" + (a.equals(b) ) + ",b==c==" + (b .equals(c)) + ",a==c==" + (a .equals(c)));
     }
 
     /**

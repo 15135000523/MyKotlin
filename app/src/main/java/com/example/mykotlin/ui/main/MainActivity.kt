@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
                 android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 android.Manifest.permission.READ_EXTERNAL_STORAGE
             ), 0
-        );
+        )
         val navController = findNavController(R.id.fragmet)
         NavigationUI.setupWithNavController(main_bottom, navController)
     }

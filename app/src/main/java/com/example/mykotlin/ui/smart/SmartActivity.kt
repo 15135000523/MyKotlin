@@ -2,12 +2,13 @@ package com.example.mykotlin.ui.smart
 
 import android.annotation.SuppressLint
 import android.os.Build
+import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.arch.core.util.Function
+import androidx.lifecycle.*
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mykotlin.R
 import com.example.mykotlin.base.BaseActivity
 import com.example.mykotlin.bean.HomeBean
@@ -60,8 +61,17 @@ class SmartActivity : BaseActivity<SmartViewModel, ActivitySmartBinding>() {
                 adapter.notifyDataSetChanged()
             })
             mError.observe(this@SmartActivity, Observer {
-                Toast.makeText(this@SmartActivity,it,Toast.LENGTH_SHORT).show();
-            })
+                    Toast.makeText(this@SmartActivity, it, Toast.LENGTH_SHORT).show()
+                })
+            Transformations.map(mError) {
+                it + " this is update data"
+            }
+            var bbb =
+                Transformations.switchMap(mData, Function<HomeBean, LiveData<HomeBean.DatasBean>> {
+                    liveData {
+                        it.datas.get(0)
+                    }
+                })
         }
     }
 

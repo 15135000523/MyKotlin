@@ -1,6 +1,5 @@
 package com.example.mykotlin.base;
 
-public class BaseRepository {
-
+public abstract class BaseRepository {
 
 }
