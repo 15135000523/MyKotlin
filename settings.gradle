@@ -1,2 +1,3 @@
+include ':navigationlibrary'
 include ':app'
 rootProject.name='MyKotlin'

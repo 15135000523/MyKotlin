@@ -11,7 +11,9 @@ import com.example.mykotlin.kotlinText.ICallback
 /**
  * ViewModel+liveData+lifecycleObserver
  */
-class LoginViewModel(): ViewModel(),LifecycleObserver {
+class LoginViewModel() : ViewModel(), LifecycleObserver {
+
+    lateinit var db: AppDatabase
 
     val bean: MutableLiveData<UserBean> by lazy {
         MutableLiveData<UserBean>()
@@ -20,37 +22,40 @@ class LoginViewModel(): ViewModel(),LifecycleObserver {
         MutableLiveData<String>()
     }
 
-    fun login(name:String,pass:String){
+
+    fun login(name: String, pass: String) {
     }
-    lateinit var call:ICallback
+
+    lateinit var call: ICallback
+
     /**
      * 执行回调之前设值
      */
-    fun setC(call:ICallback){
+    fun setC(call: ICallback) {
         this.call = call
-        Log.e("------","---我设置了回调--")
+        Log.e("------", "---我设置了回调--")
     }
-    lateinit var allList :List<User>;
-    lateinit var someList :List<User>
 
-    fun getDataForDB(context:AppCompatActivity){
-        Log.e("------","---我要执行数据库操作--")
-        Thread{
-            var db = Room.databaseBuilder(
-                context,
-                AppDatabase::class.java,
-                "user").build()
-            db.userDao().insertData(User(1,"威力","赵武"),
-                User(2,"难道","的撒"),
-                User(3,"的开","课啊"),
-                User(4,"第四","案例"))
-            allList= db.userDao().getAll()
-            someList = db.userDao().loadDataById(1,2)
+    lateinit var allList: List<User>;
+    lateinit var someList: List<User>
+
+    fun getDataForDB(context: AppCompatActivity) {
+        Log.e("------", "---我要执行数据库操作--")
+        Thread {
+            db = AppDatabase.getDb(context)
+            db.userDao().insertData(
+                User(1, "威力", "赵武"),
+                User(2, "难道", "的撒"),
+                User(3, "的开", "课啊"),
+                User(4, "第四", "案例")
+            )
+            allList = db.userDao().getAll()
+            someList = db.userDao().loadDataById(1, 2)
 //            db.userDao().deleteData(User(1,"威力","赵武"))
             db.close()
-            call.iKwon(allList,someList);
+            call.iKwon(allList, someList);
         }.start()
-        Log.e("------","---我已经调用了数据库执行--")
+        Log.e("------", "---我已经调用了数据库执行--")
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)

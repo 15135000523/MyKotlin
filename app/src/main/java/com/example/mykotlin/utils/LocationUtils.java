@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
+import android.location.GpsStatus;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -44,8 +45,11 @@ public class LocationUtils {
     }
     private void startLocation(Activity activity) {
 
+
         // 为获取地理位置信息时设置查询条件 是按GPS定位还是network定位
-        String bestProvider = getProvider();
+//        String bestProvider = getProvider();
+        //设置为GPS定位
+        String bestProvider = myLocationManager.GPS_PROVIDER;
         Log.e(ClassUtils.getInstance().getClassName(LocationUtils.class),"locationProvider:"+bestProvider);
 
         if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -53,8 +57,8 @@ public class LocationUtils {
             return;
         }
         alocation = myLocationManager.getLastKnownLocation(bestProvider);
-
         myLocationManager.requestLocationUpdates(bestProvider, 5000, 50, listener);
+        myLocationManager.addGpsStatusListener(gpsListener);
         if(alocation!=null){
             mLongitude = String.valueOf(alocation.getLongitude());
             mLatitude = String.valueOf(alocation.getLatitude());
@@ -90,7 +94,7 @@ public class LocationUtils {
         // 是否允许付费：是
         criteria.setCostAllowed(false);
         // 电量要求：低
-        criteria.setPowerRequirement(Criteria.POWER_LOW);
+        criteria.setPowerRequirement(Criteria.POWER_HIGH);
         // 返回最合适的符合条件的provider，第2个参数为true说明 , 如果只有一个provider是有效的,则返回当前provider
         return myLocationManager.getBestProvider(criteria, true);
     }
@@ -118,6 +122,16 @@ public class LocationUtils {
         public void onProviderDisabled(String provider) {
             //关闭gps调用当前方法
             Log.e(ClassUtils.getInstance().getClassName(LocationUtils.class),"onProviderDisabled:"+provider);
+        }
+    };
+
+    /**
+     * gps状态接口
+     */
+    private GpsStatus.Listener gpsListener = new GpsStatus.Listener() {
+        @Override
+        public void onGpsStatusChanged(int event) {
+
         }
     };
 

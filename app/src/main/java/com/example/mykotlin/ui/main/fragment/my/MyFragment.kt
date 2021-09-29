@@ -2,29 +2,23 @@ package com.example.mykotlin.ui.main.fragment.my
 
 
 import android.content.Intent
-import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat.startForegroundService
-import androidx.databinding.ViewDataBinding
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
+import com.example.mykotlin.R
 import com.example.mykotlin.base.BaseFragment
 import com.example.mykotlin.databinding.FragmentMyBinding
 import com.example.mykotlin.service.ForegroundService
 import com.example.mykotlin.utils.LocationUtils
 import com.example.mykotlin.utils.WaterMarkSetting.Companion.createWatermarkBitMap
-import java.lang.Exception
-import java.lang.reflect.Field
 
 
 class MyFragment : BaseFragment<MyViewModel, FragmentMyBinding>() {
@@ -32,8 +26,7 @@ class MyFragment : BaseFragment<MyViewModel, FragmentMyBinding>() {
     lateinit var mForegroundService: Intent;
 
     override fun initViewModel(): Class<MyViewModel> = MyViewModel::class.java
-    override fun loadLayout(inflater: LayoutInflater, container: ViewGroup?): ViewDataBinding =
-        FragmentMyBinding.inflate(inflater, container, false)
+    override fun loadLayout(): Int = R.layout.fragment_my
 
     override fun initView() {
         requireActivity().packageManager.getPackageInfo(
@@ -73,9 +66,9 @@ class MyFragment : BaseFragment<MyViewModel, FragmentMyBinding>() {
                     mDataBinding.root.addView(AppCompatButton(requireContext()).apply {
                         isAllCaps = false
                         text = resources.getString(it.labelRes)
-                        setOnClickListener (object :View.OnClickListener{
+                        setOnClickListener(object : View.OnClickListener {
                             override fun onClick(v: View?) {
-                                startActivity(Intent(requireContext(),Class.forName(it.name)))
+                                startActivity(Intent(requireContext(), Class.forName(it.name)))
                             }
                         })
                     })

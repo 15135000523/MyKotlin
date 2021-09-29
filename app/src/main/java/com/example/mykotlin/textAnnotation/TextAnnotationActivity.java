@@ -2,6 +2,7 @@ package com.example.mykotlin.textAnnotation;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -18,6 +19,7 @@ import com.example.mykotlin.annotation.InjectId;
 import com.example.mykotlin.lifecycle.LifecycleActivity;
 
 import java.util.HashMap;
+
 
 public class TextAnnotationActivity extends AppCompatActivity {
     @InjectId(R.id.annotation1)
@@ -36,6 +38,9 @@ public class TextAnnotationActivity extends AppCompatActivity {
     private FrameLayout frameLayout;
 
     private TextAnnotationFragment fragment;
+    private Handler handler = new Handler((message)->{
+        return false;
+    });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +66,7 @@ public class TextAnnotationActivity extends AppCompatActivity {
     @InjectClick({R.id.annotation1, R.id.annotation2, R.id.annotation3})
     public void onClick(View v) {
         if (v.getId() == R.id.annotation1) {
-           startActivity(new Intent(TextAnnotationActivity.this, LifecycleActivity.class));
+            startActivity(new Intent(TextAnnotationActivity.this, LifecycleActivity.class));
         } else if (v.getId() == R.id.annotation2) {
             textView2.setText("点击了第二个");
         } else {

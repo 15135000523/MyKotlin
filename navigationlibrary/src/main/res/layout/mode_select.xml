@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#bbffffff">
+
+    <ImageView
+        android:id="@+id/btn_back"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:scaleType="center"
+        android:src="@mipmap/iv_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/location_layout"
+        android:layout_width="0dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:background="#ffeeeeee"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btn_back"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/select_node"
+            android:layout_width="10dp"
+            android:layout_height="56dp"
+            android:layout_marginLeft="10dp"
+            android:src="@mipmap/select_node"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/select_start"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginLeft="10dp"
+            android:textColor="#555555"
+            android:textSize="14sp"
+            android:text="我的位置"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            app:layout_constraintStart_toEndOf="@id/select_node"
+            app:layout_constraintEnd_toEndOf="@id/select_line"
+            app:layout_constraintTop_toTopOf="@id/select_node"
+            app:layout_constraintBottom_toTopOf="@id/select_line"
+            />
+        <View
+            android:id="@+id/select_line"
+            android:layout_width="0dp"
+            android:layout_height="0.5dp"
+            android:background="#ffbfbfbf"
+            android:layout_marginLeft="10dp"
+            app:layout_constraintStart_toEndOf="@id/select_node"
+            app:layout_constraintEnd_toStartOf="@id/btn_select_reversal"
+            app:layout_constraintTop_toBottomOf="@id/select_start"
+            app:layout_constraintBottom_toTopOf="@id/select_end"
+            />
+        <TextView
+            android:id="@+id/select_end"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginLeft="10dp"
+            android:textColor="#555555"
+            android:textSize="14sp"
+            android:text="华润大厦"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            app:layout_constraintStart_toEndOf="@id/select_node"
+            app:layout_constraintEnd_toEndOf="@id/select_line"
+            app:layout_constraintTop_toBottomOf="@id/select_line"
+            app:layout_constraintBottom_toBottomOf="@id/select_node"
+            />
+        <ImageView
+            android:id="@+id/btn_select_reversal"
+            android:layout_width="30dp"
+            android:layout_height="0dp"
+            android:src="@mipmap/select_reversal"
+            android:scaleType="center"
+            app:layout_constraintStart_toEndOf="@id/select_line"
+            app:layout_constraintEnd_toStartOf="@id/btn_select_nav"
+            app:layout_constraintTop_toTopOf="@id/select_start"
+            app:layout_constraintBottom_toBottomOf="@id/select_end"
+            />
+
+        <ImageView
+            android:id="@+id/btn_select_nav"
+            android:layout_width="30dp"
+            android:layout_height="0dp"
+            android:layout_marginRight="15dp"
+            android:src="@mipmap/select_nav"
+            android:scaleType="center"
+            app:layout_constraintStart_toEndOf="@id/btn_select_reversal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/btn_select_reversal"
+            app:layout_constraintBottom_toBottomOf="@id/btn_select_reversal"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/select_type"
+        android:layout_width="0dp"
+        android:layout_height="46dp"
+        android:layout_marginLeft="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/location_layout"
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

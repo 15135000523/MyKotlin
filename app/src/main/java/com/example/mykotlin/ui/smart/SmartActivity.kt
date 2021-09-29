@@ -14,6 +14,7 @@ import com.example.mykotlin.base.BaseActivity
 import com.example.mykotlin.bean.HomeBean
 import com.example.mykotlin.databinding.ActivitySmartBinding
 import com.example.mykotlin.view.RecyclerDecoration
+import kotlinx.coroutines.GlobalScope
 import java.util.*
 
 class SmartActivity : BaseActivity<SmartViewModel, ActivitySmartBinding>() {
@@ -45,7 +46,9 @@ class SmartActivity : BaseActivity<SmartViewModel, ActivitySmartBinding>() {
             recycler.addItemDecoration(RecyclerDecoration(this@SmartActivity, 20))
             adapter = SmartAdapter(this@SmartActivity).also { recycler.adapter = it }
         }
-        mViewModel.getService(page.toString())
+//        mViewModel.getService(page.toString())
+
+        mViewModel.getWeather("太原")
     }
 
     @SuppressLint("ShowToast")

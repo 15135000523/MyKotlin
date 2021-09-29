@@ -1,23 +1,25 @@
 package com.example.mykotlin.ui.main.fragment.main
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.os.Build
-import android.os.Handler
 import android.util.Log
 import android.view.*
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.databinding.ViewDataBinding
-import com.bigkoo.pickerview.TimePickerView
+import com.bigkoo.pickerview.builder.TimePickerBuilder
+import com.bigkoo.pickerview.listener.OnTimeSelectListener
+import com.bigkoo.pickerview.view.TimePickerView
 import com.example.mykotlin.R
 import com.example.mykotlin.base.BaseFragment
-import com.example.mykotlin.bean.ReBean
 import com.example.mykotlin.databinding.FragmentMainBinding
 import com.example.mykotlin.login.UserBean
-import com.example.mykotlin.utils.DateUtils
 import com.example.mykotlin.utils.StatusUtil
 import com.example.mykotlin.view.SelectorView
+import com.example.navigationlibrary.BaiduActivity
+import java.text.SimpleDateFormat
 
 
 class MainFragment : BaseFragment<MainViewModel, FragmentMainBinding>(),
@@ -28,9 +30,7 @@ class MainFragment : BaseFragment<MainViewModel, FragmentMainBinding>(),
     private lateinit var textView: TextView
 
     override fun initViewModel(): Class<MainViewModel> = MainViewModel::class.java
-    override fun loadLayout(inflater: LayoutInflater, container: ViewGroup?): ViewDataBinding {
-        return FragmentMainBinding.inflate(inflater, container, false)
-    }
+    override fun loadLayout(): Int = R.layout.fragment_main
 
     override fun initObserver() {}
 
@@ -39,8 +39,9 @@ class MainFragment : BaseFragment<MainViewModel, FragmentMainBinding>(),
         createTimePicker()
         mDataBinding.run {
             mainName.setOnClickListener {
-                pvTime.show(this.mainName)
-                mDataBinding.refresh.isRefreshing = false
+//                pvTime.show(this.mainName)
+//                mDataBinding.refresh.isRefreshing = false
+                startActivity(Intent(activity, BaiduActivity::class.java))
             }
         }
         mDataBinding.selectorView.setKilometreList(ArrayList<String>().apply {
@@ -60,32 +61,31 @@ class MainFragment : BaseFragment<MainViewModel, FragmentMainBinding>(),
         texteQuals()
     }
 
-    private fun texteQuals(){
+    private fun texteQuals() {
         var a = String(StringBuffer("abc"))
         var b = String(StringBuffer("abc"))
-        Log.e("equals","a==b:"+(a==b))
-        Log.e("equals","a===b:"+(a===b))
-        var user = UserBean("闫文浩","10","男")
-        var user1 = UserBean("闫文浩","10","男")
-        Log.e("equals","user==user1:"+(user==user1))
-        Log.e("equals","user===user1:"+(user===user1))
+        Log.e("equals", "a==b:" + (a == b))
+        Log.e("equals", "a===b:" + (a === b))
+        var user = UserBean("闫文浩", "10", "男")
+        var user1 = UserBean("闫文浩", "10", "男")
+        Log.e("equals", "user==user1:" + (user == user1))
+        Log.e("equals", "user===user1:" + (user === user1))
     }
 
     /**
      * 创建
      */
     private fun createTimePicker() {
-        pvTime = TimePickerView.Builder(activity,
-            TimePickerView.OnTimeSelectListener { date, v -> //选中事件回调
-                // 这里回调过来的v,就是show()方法里面所添加的 View 参数，如果show的时候没有添加参数，v则为null
-                val btn = v as TextView
-                btn.setText(DateUtils.dateToString(date))
-            }) //年月日时分秒 的显示与否，不设置则默认全部显示
-            .setType(booleanArrayOf(true, true, true, true, true, false))
-            .setLabel("年", "月", "日", "时", "", "")
-            .isCenterLabel(true)
-            .setContentSize(21)
+
+        pvTime = TimePickerBuilder(context, OnTimeSelectListener { date, v -> //选中事件回调
+            mDataBinding.mainName.text =
+                SimpleDateFormat("yyyy-MM-dd HH:MM:SS").format(date).substring(0, 4)
+        })
+            .setType(booleanArrayOf(true, false, false, false, false, false)) // 默认全部显示
+            .setLabel("", "", "", "", "", "")
+            .setContentTextSize(21)//默认设置为年月日时分秒
             .setDecorView(null)
+            .isCenterLabel(true) //是否只显示中间选中项的label文字，false则每项item全部都带有label。
             .build()
     }
 
@@ -141,5 +141,6 @@ class MainFragment : BaseFragment<MainViewModel, FragmentMainBinding>(),
         return false
 
     }
+
 
 }

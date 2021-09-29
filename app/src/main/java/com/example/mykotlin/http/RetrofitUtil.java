@@ -20,13 +20,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitUtil {
 
-    public static final String BASE_URL = "https://wanandroid.com/";
+//        public static final String BASE_URL = "https://wanandroid.com/";
+    public static final String BASE_URL = "https://free-api.heweather.net/";
 //    public static final String BASE_URL = "https://s2.gjdwllgdgs.com:30001/pwkshApp/";
 
 
     public final long OUT_TIME = 10 * 1000;
-    public final  long CACHE_MAX_SIZE = 1024*1024*10;
-    public final  String CACHE_FILE_PATH = FileUtils.getExternalStoragePath()+"/cache/mykotlin";
+    public final long CACHE_MAX_SIZE = 1024 * 1024 * 10;
+    public final String CACHE_FILE_PATH = FileUtils.getExternalStoragePath() + "/cache/mykotlin";
 
     public static RetrofitUtil retrofitUtil;
 
@@ -74,15 +75,16 @@ public class RetrofitUtil {
     /**
      * 使用rxjava
      * 此方法没有提供解析code值
+     *
      * @param t        接口返回的类型
      * @param callBack 用于将返回的数据回掉出去
      * @param <T>      具体的数据类型
      */
     public <T> void invoke(Observable<T> t, ICallback<T> callBack) {
         t.subscribeOn(Schedulers.io())
-                .doOnSubscribe(onSubscribe -> Log.e("yan httpRequest", "开始请求网络数据:"))
+                .doOnSubscribe(onSubscribe -> Log.v("yan httpRequest", "开始请求网络数据:"))
                 .observeOn(AndroidSchedulers.mainThread())
-                .doFinally(() -> Log.e("yan httpResponse", "数据请求结束"))
+                .doFinally(() -> Log.v("yan httpResponse", "数据请求结束"))
                 .subscribe(new DefaultObserver<T>() {
                     @Override
                     public void onNext(T response) {
@@ -139,11 +141,12 @@ public class RetrofitUtil {
      * 使用rxjava
      * 这个方法是有baseResponse，集中处理了code值，只返回code=0的data，
      * IOnRequest可以在请求开始前和结束时加一些额外的操作
+     *
      * @param t        接口返回的类型
      * @param callBack 用于将返回的数据回掉出去
      * @param <T>      具体的数据类型
      */
-    public <T> void invoke(Observable<BaseResponse<T>> t, IBaseResponseCallBack<T> callBack,IOnRequest onRequest) {
+    public <T> void invoke(Observable<BaseResponse<T>> t, IBaseResponseCallBack<T> callBack, IOnRequest onRequest) {
         t.subscribeOn(Schedulers.io())
                 .doOnSubscribe(onSubscribe -> onRequest.requestBegin())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -169,9 +172,9 @@ public class RetrofitUtil {
                 });
     }
 
-    private File createFile(){
+    private File createFile() {
         File file = new File(CACHE_FILE_PATH);
-        if(file.exists()){
+        if (file.exists()) {
             try {
                 file.createNewFile();
             } catch (IOException e) {
@@ -184,6 +187,7 @@ public class RetrofitUtil {
     /**
      * ARouter
      * 跟据对应的code值解析对应的数据
+     *
      * @param code
      * @return
      */

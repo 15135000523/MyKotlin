@@ -17,8 +17,8 @@ import com.example.mykotlin.utils.GlideOptionsSetting
 import com.example.mykotlin.utils.WaterMarkSetting.Companion.createWatermarkBitMap
 import com.example.mykotlin.utils.WaterMarkSetting.Companion.saveAndCompress
 
-class FoldActivity : BaseActivity<FoldViewModel, ActivityFoldBinding>() {
-    override fun loadLayout(): Int = R.layout.activity_fold
+class FoldActivity : BaseActivity<FoldViewModel, ActivityFold2Binding>() {
+    override fun loadLayout(): Int = R.layout.activity_fold2
     override fun initViewModel(): Class<FoldViewModel> = FoldViewModel::class.java
 
     override fun initView() {

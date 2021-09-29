@@ -18,4 +18,7 @@ interface UserDao {
 
     @Delete
     fun deleteData(user: User)
+
+    @Query("delete from user where uid IN (:userIds)")
+    fun deleteDataFromId(vararg userIds: Int)
 }

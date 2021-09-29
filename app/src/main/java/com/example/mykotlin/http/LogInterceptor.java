@@ -44,20 +44,21 @@ public class LogInterceptor implements Interceptor {
     }
 
     private void printRequest(Request request) {
-        String requestStr = "url:\n" + request.url().toString() + "\n";
+        String requestStr = "requestDetails:\n url:" + request.url().toString() + "\n";
         requestStr = requestStr + "method:" + request.method() + "\n";
         if (request.headers().names().size() > 0) {
             for (String name : request.headers().names()) {
-                requestStr += "header->" + name + ":" + request.header(name);
+                requestStr += "header->" + name + ":" + request.header(name) + "\n";
             }
-        } else {
-            requestStr += "当前接口没有请求头";
         }
-        Log.e("yan httpRequset", requestStr);
+        if (request.body() != null) {
+            requestStr = requestStr + "body:" + request.body().toString() + "\n";
+        }
+        Log.v("yan httpRequset", requestStr);
     }
 
     private Response printResponse(Response response) {
-        String responseStr = "url:\n" + response.request().url() + "\n";
+        String responseStr = "responseDetails \nurl:" + response.request().url() + "\n";
         responseStr = responseStr + "code:" + response.code() + "\n";
         String headers = "";
         String content = "";//返回的json
@@ -83,7 +84,7 @@ public class LogInterceptor implements Interceptor {
             }
         }
 
-        Log.e("yan httpResponse", responseStr);
+        Log.v("yan httpResponse", responseStr);
 
         return response.newBuilder()
                 .body(ResponseBody.create(response.body().contentType(), content))

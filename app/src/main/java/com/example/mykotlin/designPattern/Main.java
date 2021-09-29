@@ -1,17 +1,31 @@
 package com.example.mykotlin.designPattern;
 
+
+import android.util.Base64;
+
+import com.example.mykotlin.designPattern.encode.TextEncode;
 import com.example.mykotlin.designPattern.observer.Observable;
 import com.example.mykotlin.designPattern.proxyPattern.IProxy;
 import com.example.mykotlin.designPattern.proxyPattern.ProxyHandler;
 import com.example.mykotlin.designPattern.proxyPattern.User;
 import com.example.mykotlin.designPattern.proxyPattern.UserProxy;
 import com.example.mykotlin.designPattern.singletonPattern.DateUtils;
+import com.example.mykotlin.http.BaseResponse;
 
+import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.security.Key;
+import java.security.PublicKey;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.List;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 public class Main {
 
@@ -29,12 +43,56 @@ public class Main {
 //        System.out.println(selectIntFor(178888));
 //        System.out.println("start time :"+new Date().getTime());
 
-        String a = new String("123");
-        String b = new String("123");
-        String c = b;
-        c.hashCode();
+//        String a = new String("123");
+//        String b = new String("123");
+//        String c = b;
+//        c.hashCode();
+//
+//        System.out.println("a==b==" + (a.equals(b) ) + ",b==c==" + (b .equals(c)) + ",a==c==" + (a .equals(c)));
+//        takeCommitKeyValue(new BaseResponse<String>("200", "请求成功", "这是数据", true));
 
-        System.out.println("a==b==" + (a.equals(b) ) + ",b==c==" + (b .equals(c)) + ",a==c==" + (a .equals(c)));
+        //加密解密
+        TextEncode textEncode = TextEncode.getInstance();
+//        textEncode.textDESEncode("闫文浩真帅");
+        textEncode.textAES("闫文浩真帅");
+//        String str = "这是一个神奇的字符串wrq";
+//        textEncode.textRSA();
+//        byte[] encodeStr = textEncode.encryptByPublicKey(str.getBytes(), textEncode.getKeybyte(TextEncode.PUBLIC_KEY));
+//        byte[] decodeStr = textEncode.decryptByPrivateKey(encodeStr, textEncode.getKeybyte(TextEncode.PRIVATE_KEY));
+//        System.out.println("字符:" + str + "\n 私钥加密:" + new String(encodeStr) + "\n 公钥解密:" + new String(decodeStr));
+//
+//        System.out.println("\n");
+//        byte[] encodeStra = textEncode.encode(str.getBytes());
+//        byte[] decodeStra = textEncode.decode(encodeStra);
+//        System.out.println("字符:" + str + "\n 私钥加密:" + new String(encodeStra) + "\n 公钥解密:" + new String(decodeStra));
+    }
+
+    /**
+     * 将传入的bean转换成对应的请求的body
+     *
+     * @param bean 请求的类
+     * @param <T>
+     * @return 请求的表单
+     */
+    public static <T> List<MultipartBody.Part> takeCommitKeyValue(T bean) {
+        List parts = new ArrayList<MultipartBody.Part>();
+        Class cl = bean.getClass();
+        Field[] fields = cl.getDeclaredFields();
+        for (Field field : fields) {
+            field.setAccessible(true);
+            try {
+                if (field.getName().contains("Path")) {
+                    File file = new File(String.valueOf(field.get(bean)));
+                    parts.add(MultipartBody.Part.createFormData(field.getName(), file.getName(), RequestBody.create(MediaType.parse("image/png"), file)));
+                } else {
+                    parts.add(MultipartBody.Part.createFormData(field.getName(), String.valueOf(field.get(bean))));
+                }
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println(parts.toString());
+        return parts;
     }
 
     /**
@@ -100,10 +158,10 @@ public class Main {
         }
     }
 
-    private static int selectIntFor(int value){
-        for (int i=0;i<list.size();i++) {
-            if (list.get(i)==value)
-            return i;
+    private static int selectIntFor(int value) {
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i) == value)
+                return i;
         }
         return -1;
     }

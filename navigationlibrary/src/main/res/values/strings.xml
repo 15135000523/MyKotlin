@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="BaiduActivity">路径规划</string>
+    <string name="BdnavActivity">百度导航</string>
+</resources>

@@ -17,8 +17,8 @@ public abstract class BaseActivity<VM extends BaseViewModel, V extends ViewDataB
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mDataBinding = DataBindingUtil.setContentView(this, loadLayout());
+        mViewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication()).create(initViewModel());
         mViewModel = new ViewModelProvider(this).get(initViewModel());
-        ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication()).create(initViewModel());
         initView();
         initObserver();
         getLifecycle().addObserver(mViewModel);

@@ -8,30 +8,49 @@
         android:layout_height="match_parent"
         tools:context=".ui.bottomappbar.BottomAppbarActivity">
 
-        <com.example.mykotlin.view.MyClock
-            android:layout_width="300dp"
-            android:layout_height="300dp"/>
-
-        <com.google.android.material.bottomappbar.BottomAppBar
-            android:id="@+id/bottom_app_bar"
+        <androidx.camera.view.PreviewView
+            android:id="@+id/viewFinder"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_gravity="bottom"
-            app:fabAlignmentMode="center"
-            app:fabCradleMargin="4dp"
-            app:fabCradleVerticalOffset="4dp"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            />
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_anchor="@id/bottom_app_bar"
-            android:layout_gravity="center"
-            android:foregroundGravity="center"
-            android:src="@mipmap/white_add"
-            app:backgroundTint="@color/red"
-            />
+            android:layout_height="match_parent" />
+        <Button
+            android:id="@+id/camera_capture_button"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginBottom="50dp"
+            android:scaleType="fitCenter"
+            android:text="Take Photo"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:elevation="2dp" />
+
+
+
+
+        <!--        <com.example.mykotlin.view.MyClock-->
+<!--            android:layout_width="300dp"-->
+<!--            android:layout_height="300dp"/>-->
+
+<!--        <com.google.android.material.bottomappbar.BottomAppBar-->
+<!--            android:id="@+id/bottom_app_bar"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:layout_gravity="bottom"-->
+<!--            app:fabAlignmentMode="center"-->
+<!--            app:fabCradleMargin="4dp"-->
+<!--            app:fabCradleVerticalOffset="4dp"-->
+<!--            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"-->
+<!--            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"-->
+<!--            />-->
+<!--        <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:layout_anchor="@id/bottom_app_bar"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:foregroundGravity="center"-->
+<!--            android:src="@mipmap/white_add"-->
+<!--            app:backgroundTint="@color/red"-->
+<!--            />-->
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

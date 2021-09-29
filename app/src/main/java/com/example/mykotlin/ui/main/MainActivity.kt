@@ -1,4 +1,4 @@
-package com.example.mykotlin.ui.main
+ package com.example.mykotlin.ui.main
 
 import android.content.Intent
 import android.os.Build

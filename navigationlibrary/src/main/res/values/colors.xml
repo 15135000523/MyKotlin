@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="mode_select">#3473EE</color>
+    <color name="mode_select_no">#555555</color>
+</resources>

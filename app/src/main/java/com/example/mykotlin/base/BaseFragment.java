@@ -21,7 +21,7 @@ public abstract class BaseFragment<VM extends BaseViewModel, V extends ViewDataB
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mDataBinding = (V) loadLayout(inflater,container);
+        mDataBinding = DataBindingUtil.inflate(inflater, loadLayout(), container, false);
         mViewModel = new ViewModelProvider(this).get(initViewModel());
         initView();
         initObserver();
@@ -30,14 +30,14 @@ public abstract class BaseFragment<VM extends BaseViewModel, V extends ViewDataB
         return mDataBinding.getRoot();
     }
 
-    public abstract ViewDataBinding loadLayout(@NonNull LayoutInflater inflater, @Nullable ViewGroup container);
+    public abstract int loadLayout();
 
     public abstract Class<VM> initViewModel();
 
     @SuppressLint("FragmentLiveDataObserve")
-    private void tokenError(){
-        mViewModel.mError.observe(this,s-> {
-            if(s.equals("102")){//清除登录数据，重新登录
+    private void tokenError() {
+        mViewModel.mError.observe(this, s -> {
+            if (s.equals("102")) {//清除登录数据，重新登录
                 getActivity().finish();
             }
         });

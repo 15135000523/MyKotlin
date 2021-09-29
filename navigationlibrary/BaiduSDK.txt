@@ -1,0 +1,15 @@
+ 缩放级别
+ MapStatus.Builder builder = new MapStatus.Builder();
+ builder.zoom(18.0f);
+ mBaiduMap.setMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
+
+mBaiduMap是地图控制器对象
+mBaiduMap = mMapView.getMap();
+普通地图 MAP_TYPE_NORMAL,卫星图 MAP_TYPE_SATELLITE,空白地图 MAP_TYPE_NONE
+mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
+
+开启交通图
+mBaiduMap.setTrafficEnabled(true);
+
+开启地图的定位图层
+mBaiduMap.setMyLocationEnabled(true);

@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".login.LoginActivity"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".login.LoginActivity">
 
     <EditText
         android:id="@+id/login_user"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:textSize="18sp"
         android:hint="请输入账号"
-        app:layout_constraintHeight_percent="0.1"
-        app:layout_constraintWidth_percent="0.8"
+        android:importantForAutofill="no"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.1"
         app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints"
-        android:importantForAutofill="no" />
+        app:layout_constraintWidth_percent="0.8"
+        tools:ignore="MissingConstraints" />
 
     <EditText
         android:id="@+id/login_pass"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:textSize="18sp"
         android:hint="请输入密码"
+        android:textSize="18sp"
         app:layout_constraintHeight_percent="0.1"
-        app:layout_constraintWidth_percent="0.8"
-        app:layout_constraintTop_toBottomOf="@id/login_user"
         app:layout_constraintStart_toStartOf="@id/login_user"
-        />
+        app:layout_constraintTop_toBottomOf="@id/login_user"
+        app:layout_constraintWidth_percent="0.8" />
+
     <TextView
         android:id="@+id/login_text"
         android:layout_width="0dp"
@@ -37,23 +37,35 @@
         android:textSize="18sp"
         android:visibility="gone"
         app:layout_constraintHeight_percent="0.1"
-        app:layout_constraintWidth_percent="0.8"
-        app:layout_constraintTop_toBottomOf="@id/login_pass"
         app:layout_constraintStart_toStartOf="@id/login_pass"
-        />
+        app:layout_constraintTop_toBottomOf="@id/login_pass"
+        app:layout_constraintWidth_percent="0.8" />
+
     <Button
         android:id="@+id/login_login"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="20dp"
         android:text="登录"
         android:textSize="18sp"
-        app:layout_constraintHeight_percent="0.09"
-        app:layout_constraintWidth_percent="0.8"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.09"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginBottom="20dp"
+        app:layout_constraintWidth_percent="0.8" />
+
+    <TextView
+        android:id="@+id/drawe"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginBottom="-300dp"
+        android:text="下面得抽屉"
+        android:layout_gravity="bottom"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:background="@color/Green"
+        android:layout_alignParentBottom="true"
         />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>
 

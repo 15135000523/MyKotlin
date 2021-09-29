@@ -6,6 +6,13 @@ public class BaseResponse<T> {
     private T data;
     private boolean result;
 
+    public BaseResponse(String errorCode, String errorMsg, T data, boolean result) {
+        this.errorCode = errorCode;
+        this.errorMsg = errorMsg;
+        this.data = data;
+        this.result = result;
+    }
+
     public String getCode() {
         return errorCode;
     }
